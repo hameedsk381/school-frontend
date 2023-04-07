@@ -1,0 +1,24 @@
+<Container>
+
+
+<Typography align='center' variant='h4' color={'Highlight'}>Aims</Typography>
+
+<List>
+{["Increase the use of good grammar and speak fluently in everyday situations.","Learn English pronunciation and real spoken English","Learn chunks of phrases, linking verbs and extensive vocabulary.","Be a member of an interactive community and encourage life-long learning of English.","Enhance quick learning through the fun way in a casual setting."].map(item=>(
+  <ListItem>
+<ListItemIcon><Forward color='info'/></ListItemIcon>
+<ListItemText primary={item}/>
+</ListItem>
+))}
+</List>
+
+<Typography align='center' variant='h4' color={'Highlight'}>Club Members</Typography>
+<List>
+{clubs.map(item=>(
+  <ListItem>
+<ListItemIcon><Forward color='info'/></ListItemIcon>
+<ListItemText primary={item.name}/>
+</ListItem>
+))}
+</List>
+</Container>
