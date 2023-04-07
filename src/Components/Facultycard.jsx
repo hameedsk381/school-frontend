@@ -7,13 +7,12 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getUser } from '../actions/userActions';
-import dotenv from 'dotenv'
-dotenv.config()
+
 const Facultycard = () => {
   const [user,setUser]= useState({})
   const {id}  =  useParams();
   const profile = async()=>{
-    const res = await axios.get(`${process.env.REACT_URL}/api/users/${id}`);
+    const res = await axios.get(`/api/users/${id}`);
 setUser(res.data)
   }
    useEffect(() => {

@@ -1,10 +1,9 @@
 import axios from "axios";
-import dotenv from 'dotenv'
-dotenv.config()
+
 export const registerUser = (user) => async (dispatch) => {
   dispatch({ type: "USER_REGISTER_REQUEST" });
   try {
-    const res = await axios.post(`${process.env.REACT_URL}/api/users/register`, user);
+    const res = await axios.post(`/api/users/register`, user);
     dispatch({ type: "USER_REGISTER_SUCCESS", payload: res.data });
     console.log(res.data);
   } catch (error) {
@@ -14,7 +13,7 @@ export const registerUser = (user) => async (dispatch) => {
 export const loginUser = (user) => async (dispatch) => {
     dispatch({ type: "USER_LOGIN_REQUEST" });
     try {
-      const res = await axios.post(`${process.env.REACT_URL}/api/users/login`, user);
+      const res = await axios.post(`/api/users/login`, user);
       dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });  
       console.log(res.data);
       localStorage.setItem("currentUser", JSON.stringify(res.data));
@@ -26,7 +25,7 @@ export const loginUser = (user) => async (dispatch) => {
 export const getAllUsers =()=>async(dispatch)=>{
     dispatch({ type: "GET_ALL_USERS_REQUEST" });
     try {
-      const res = await axios.get(`${process.env.REACT_URL}/api/users/getusers`);
+      const res = await axios.get(`/api/users/getusers`);
       dispatch({ type: "GET_ALL_USERS_SUCCESS", payload: res.data });
       console.log(res.data);
      
@@ -44,7 +43,7 @@ export const logoutUser =()=>(dispatch)=>{
 export const deleteUser = (userid) => async (dispatch) => {
     dispatch({ type: "USER_DELETE_REQUEST" ,payload:userid});
     try {
-      const res = await axios.delete(`${process.env.REACT_URL}/api/users/delete`,userid);
+      const res = await axios.delete(`/api/users/delete`,userid);
       dispatch({ type: "USER_DELETE_SUCCESS", payload: res.data });
       console.log(res.data);
     } catch(err){
@@ -54,7 +53,7 @@ export const deleteUser = (userid) => async (dispatch) => {
 export const updateProfilePic = (formData) => async(dispatch)=>{
   dispatch({ type: "USER_UPDATE_PROFILE_PIC_REQUEST" });
   try {
-    const res = await axios.post(`${process.env.REACT_URL}/api/users/uploadprofilepic`, formData);
+    const res = await axios.post(`/api/users/uploadprofilepic`, formData);
     dispatch({ type: "USER_UPDATE_PROFILE_PIC_SUCCESS", payload: res.data})
     console.log(res.data);
     } catch(err){
@@ -64,7 +63,7 @@ export const updateProfilePic = (formData) => async(dispatch)=>{
 export const getUser =(userid)=>async(dispatch)=>{
   dispatch({ type: "GET_USER_REQUEST" });
   try {
-    const res = await axios.get(`${process.env.REACT_URL}/api/users/${userid}`);
+    const res = await axios.get(`/api/users/${userid}`);
     dispatch({ type: "GET_USER_SUCCESS", payload: res.data });
     console.log(res.data);
    
@@ -75,7 +74,7 @@ export const getUser =(userid)=>async(dispatch)=>{
 export const addClubUser = (user) => async (dispatch) => {
   dispatch({ type: "CLUB_USER_REGISTER_REQUEST" });
   try {
-    const res = await axios.post(`${process.env.REACT_URL}/api/clubs/addclubuser`, user);
+    const res = await axios.post(`/api/clubs/addclubuser`, user);
     dispatch({ type: "CLUB_USER_REGISTER_SUCCESS", payload: res.data });
     console.log(res.data);
   } catch (error) {
@@ -85,7 +84,7 @@ export const addClubUser = (user) => async (dispatch) => {
 export const getAllClubUsers =()=>async(dispatch)=>{
   dispatch({ type: "GET_ALL_CLUB_USERS_REQUEST" });
   try {
-    const res = await axios.get(`${process.env.REACT_URL}/api/users/getusers`);
+    const res = await axios.get(`/api/users/getusers`);
     dispatch({ type: "GET_ALL_CLUB_USERS_SUCCESS", payload: res.data });
     console.log(res.data);
    

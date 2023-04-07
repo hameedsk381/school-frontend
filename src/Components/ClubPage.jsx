@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { Typography,  Grid, Avatar, List, ListItem, ListItemAvatar, ListItemText, CircularProgress, ListItemIcon, Box, Alert } from '@mui/material';
 import axios from 'axios';
 import { Forward } from '@mui/icons-material';
-import dotenv from 'dotenv'
-dotenv.config()
+
 const ClubPage = ({clubname})=> {
   const [members, setMembers] = useState(null);
   const [len,setlen] = useState(0)
   const getUsers = async()=>{
-    await axios.get(`${process.env.REACT_URL}/api/clubs/${clubname}`).then(response => {setMembers(response.data);setlen(response.data.length)})
+    await axios.get(`/api/clubs/${clubname}`).then(response => {setMembers(response.data);setlen(response.data.length)})
       .catch(error => console.error(error));
       
     }

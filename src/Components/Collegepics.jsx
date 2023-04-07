@@ -1,9 +1,9 @@
 import { Box, Button, Container,  Input, Stack, Typography } from '@mui/material'
 import axios from 'axios'
-import dotenv from 'dotenv'
+
 
 import React, { useEffect, useState } from 'react'
-dotenv.config()
+
 const Collegepics = () => {
     const [uploadedFiles, setUploadedFiles] = useState([])
     const [pics, setpics] = useState([])
@@ -42,7 +42,7 @@ const Collegepics = () => {
         for (const key of Object.keys(uploadedFiles)) {
             formData.append('imgCollection', uploadedFiles[key])
         }
-        axios.post(`${process.env.REACT_URL}/api/upload-images`, formData, {
+        axios.post(`/api/upload-images`, formData, {
         })
     }
     useEffect(() => {

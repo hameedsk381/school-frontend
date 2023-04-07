@@ -20,8 +20,7 @@ import { useState } from "react";
 
 import styled from "@emotion/styled";
 import axios from "axios";
-import dotenv from 'dotenv'
-dotenv.config()
+
 const useStyles = styled((theme) => ({
   container: {
     display: "flex",
@@ -63,7 +62,7 @@ const Contact = () => {
     }));
   };
 const postdata = async(formValues)=>{
- await axios.post(`${process.env.REACT_URL}/api/feedback/contact`,formValues)
+ await axios.post(`/api/feedback/contact`,formValues)
 }
   const handleSubmit = (event) => {
     event.preventDefault();

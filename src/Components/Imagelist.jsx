@@ -5,8 +5,7 @@ import { Box, Button, Container,  Modal, Typography } from '@mui/material';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import axios from 'axios';
 
-import dotenv from 'dotenv'
-dotenv.config()
+
 
   const style = {
     position: 'absolute',
@@ -35,7 +34,7 @@ export default function Imagelist() {
     const [pics, setpics] = React.useState([])
     const handleClose = () => setOpen(false);
     React.useEffect(() => {
-      axios.get(`${process.env.REACT_URL}/api/`).then(res=>{
+      axios.get(`/api/`).then(res=>{
        
         setpics(res.data)})
     }, [])

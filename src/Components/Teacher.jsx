@@ -4,8 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { Link } from 'react-router-dom';
 import { Button, Card, CardContent, CardHeader, CardMedia, Typography } from '@mui/material';
-import dotenv from 'dotenv'
-dotenv.config()
+
 const useStyles = styled((theme) => ({
   root: {
     display: 'flex',
@@ -30,7 +29,7 @@ export default function Teacher({ match }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`${process.env.REACT_URL}/api/users/getusers`);
+      const result = await axios.get(`/api/users/getusers`);
       setTeacher(result.data);
     
     };
