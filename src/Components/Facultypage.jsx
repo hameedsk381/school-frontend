@@ -1,13 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import {
-  Alert,
-  CircularProgress,
-  Container,
-  Grid,
-} from '@mui/material';
-import Profilecard from './Profilecard';
-import axios from 'axios';
-import REACT_API_URL from '../config';
+import React, { useEffect, useState, useMemo } from "react";
+import { Alert, CircularProgress, Container, Grid } from "@mui/material";
+import Profilecard from "./Profilecard";
+import axios from "axios";
+import REACT_API_URL from "../config";
 
 const Facultypage = ({ dept }) => {
   const [depusers, setDepusers] = useState([]);
@@ -32,17 +27,17 @@ const Facultypage = ({ dept }) => {
   const memoizedDepusers = useMemo(() => depusers, [depusers]);
 
   if (depusers.length === 0) {
-    return (
-     <CircularProgress/>
-    );
+    return <CircularProgress />;
   }
 
   if (loading) {
-    return <CircularProgress sx={{ m: '50%' }} />;
+    return <CircularProgress sx={{ m: "50%" }} />;
   }
 
   if (err) {
-    return <Alert severity="error">This is an error alert — check it out!</Alert>;
+    return (
+      <Alert severity="error">This is an error alert — check it out!</Alert>
+    );
   }
 
   return (
