@@ -39,6 +39,7 @@ import ResetPassword from "./Components/ResetPassword";
 import SingleEvent from "./Components/SingleEvent";
 import HomeworkForm from "./Components/HomeworkForm";
 import AnnouncementPanel from "./Components/AnnouncementPanel";
+import EventsPanel from "./Components/EventsPanel";
 
 
 
@@ -85,6 +86,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} exact />
         <Route path="/homeworkform" element={<HomeworkForm />} exact />
         <Route path="/announcements" element={<AnnouncementPanel />} exact />
+        <Route path="/events" element={<EventsPanel />} exact />
       </Routes>
       </Box>
     </React.Fragment>

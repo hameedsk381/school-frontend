@@ -14,7 +14,7 @@ import Footer from "./Footer";
 
 import Swal from "sweetalert2";
 import Eventscomp from "./Eventscomp";
-import Events from "./Events";
+import Events from "./EventsPanel";
 import AnnouncementPanel from "./AnnouncementPanel";
 import { Link } from "react-router-dom";
 import { ArrowForward } from "@mui/icons-material";

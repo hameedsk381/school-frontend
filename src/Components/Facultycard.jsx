@@ -141,14 +141,12 @@ objectFit:"cover",
               <ListItemText primary="Expertise" secondary={profiledata.expertise} />
             </ListItem>
             <ListItem>
-              <ListItemText primary="Currently Teaching" secondary={profiledata.currentlyTeaching} />
+              <ListItemText primary="Currently Teaching" secondary={`${profiledata.currentlyTeaching},${profiledata.additionalTeachingClasses}`} />
             </ListItem>
             <ListItem>
               <ListItemText primary="Additional Teaching Departments" secondary={profiledata.additionalTeachingDepartments} />
             </ListItem>
-            <ListItem>
-              <ListItemText primary="Additional Teaching Classes" secondary={profiledata.additionalTeachingClasses} />
-            </ListItem>
+          
             <ListItem>
               <ListItemText primary="Languages" secondary={profiledata.languages} />
             </ListItem>
