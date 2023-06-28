@@ -98,7 +98,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} md={3}>
       <AnnouncementPanel/>
-      <Button component={Link} variant='text' sx={{textDecoration:"underline"}} sx={{m:2}} to='/announcements'>View all announcements</Button>
+      <Button component={Link} variant='text' sx={{textDecoration:"underline"}}  to='/announcements'>View all announcements</Button>
         </Grid>
         </Grid>
         <Values />

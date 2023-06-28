@@ -49,7 +49,7 @@ const AnnouncementPanel = () => {
                           {announcement.title}
                         </Typography>
                       }
-                      secondary={announcement.description}
+                      secondary={announcement.description.substring(20)}
                     />
                   </ListItem>
                 </List>
