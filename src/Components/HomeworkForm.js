@@ -69,8 +69,9 @@ const HomeworkForm = () => {
  if(currentUser==null){
     return <Login/>
  }
- const currentteaching = currentUser.currentlyTeaching[0].split(",").concat(currentUser.additionalTeachingClasses[0].split(","))
-  return (
+ const currentteachingclasses = currentUser.currentlyTeaching[0].split(",").concat(currentUser.additionalTeachingClasses[0].split(","))
+ const currentteachingdepartments = [currentUser.department].concat(currentUser.additionalTeachingDepartments[0].split(","))
+ return (
     <Card sx={{width:{xs:"80%",md:"50%",lg:"35%"},margin:"auto",marginBlock:6}}>
       <CardContent component={Stack} spacing={3}>
         <Typography variant="h5" component="h1" sx={{color:"Highlight"}} >
@@ -101,8 +102,8 @@ const HomeworkForm = () => {
               onChange={handleChange}
               label="subject"
             >
-             {subjects.map((item)=>(
-                <MenuItem key={idd} value={item}>{item}</MenuItem>
+             {currentteachingdepartments.map((item)=>(
+                <MenuItem key={idd} sx={{textTransform:"capitalize"}} value={item}>{item}</MenuItem>
              ))}
             </Select>
           </FormControl>
@@ -114,7 +115,7 @@ const HomeworkForm = () => {
               onChange={handleChange}
               label="Classes Teaching"
             >
-             {currentteaching.map((item)=>(
+             {currentteachingclasses.map((item)=>(
                 <MenuItem key={idd} value={item}>{item}</MenuItem>
              ))}
             </Select>
