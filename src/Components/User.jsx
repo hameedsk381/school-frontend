@@ -1,4 +1,4 @@
-import { Alert, Box, Breadcrumbs, CircularProgress, Container, Grid, Paper, Stack } from "@mui/material";
+import { Alert, Box, Breadcrumbs, Button, CircularProgress, Container, Grid, Paper, Stack } from "@mui/material";
 import { useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
@@ -94,6 +94,9 @@ const User = () => {
         </Typography>
       </Stack>
       <Container>
+      
+      <Button component={Link} variant="contained" to='/homeworkform'>Add Homework</Button>
+    
       <Grid  container spacing={2} sx={{ mt: 4 }}>
       <Grid item xs={12} sm={6}>
         <ListItem>

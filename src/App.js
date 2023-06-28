@@ -79,6 +79,7 @@ function App() {
         <Route path="/admissions" element={<Admissions />} exact />
         <Route path="/alumni" element={<AlumniFeedbackForm />} exact />
         <Route path="/announcement/:id" element={<Announcement />} exact />
+        <Route path="/addannouncement" element={<Announcementpage />} exact />
         <Route path="/event/:id" element={<SingleEvent />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/reset-password" element={<ResetPassword />} exact />

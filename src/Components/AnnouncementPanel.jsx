@@ -27,29 +27,29 @@ const AnnouncementPanel = () => {
        }, [])
        
   return (
-    <Card elevation={0} sx={{height:"80%"}}>
-      <CardHeader   
-      action={
-        <IconButton aria-label="settings">
-          <More/>
-        </IconButton>
-      }
-      title="Announcements"
+    <Card elevation={0} sx={{height:300}}>
+      <CardHeader  sx={{backgroundColor:'Highlight'}}
+      title="Announcements" titleTypographyProps={{
+        variant: "h5",
+        align: "center",
+        color:'white'
+
+      }}
        />
-      <CardContent sx={{height:280}}>
+      <CardContent sx={{ height: 280, overflow: 'auto' }}>
         
           {announcements && announcements.map((announcement, index) => (
            
                 <List disablePadding component={'ul'}>
                   <ListItem disablePadding>
                   <ListItemIcon><CampaignOutlined/></ListItemIcon>
-                    <ListItemText
+                    <ListItemText sx={{textTransform:"capitalize"}}
                       primary={
-                        <Typography variant="body1" component="div">
+                        <Typography variant="body1" sx={{color:'Highlight'}} component={Link} to={`/announcement/${announcement._id}`}>
                           {announcement.title}
                         </Typography>
                       }
-                      secondary={announcement.description.substring(20)}
+                      secondary={`${announcement.description.substring(0, 101)}...`}
                     />
                   </ListItem>
                 </List>

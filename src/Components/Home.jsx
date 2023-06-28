@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 
 import banner from "../assets/banner.JPG";
 import Marquee from "react-fast-marquee";
@@ -17,12 +17,14 @@ import Eventscomp from "./Eventscomp";
 import Events from "./Events";
 import AnnouncementPanel from "./AnnouncementPanel";
 import { Link } from "react-router-dom";
+import { ArrowForward } from "@mui/icons-material";
 
 const arrayRange = (start, stop, step) =>
   Array.from(
     { length: (stop - start) / step + 1 },
     (value, index) => start + index * step
   );
+  
 const Home = () => {
   const responsive = {
     superLargeDesktop: {
@@ -77,11 +79,11 @@ const Home = () => {
             removeArrowOnDeviceType={["tablet", "mobile"]}
             itemClass="carousel-item-padding-80-px"
           >
-            {arrayRange(1455, 1457, 1).map((item, i) => (
+            {arrayRange(1, 17, 1).map((item, i) => (
               <div className="relative" key={i}>
                 <img
-                  src={require(`../assets/IMG_${item}.JPG`)}
-                  className="max-h-[100vh] object-cover md:h-[55vh] h-[200px] w-[100%]  img-fluid"
+                  src={require(`../banner/ban${item}.JPG`)}
+                  className="max-h-[100vh] object-cover md:h-[60vh] h-[200px] w-[100%]  img-fluid"
                   alt="logo"
                   onClick={() => {
                     Swal.fire({
@@ -96,9 +98,9 @@ const Home = () => {
             ))}
           </Carousel>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} component={Card} elevation={0} p={3} >
       <AnnouncementPanel/>
-      <Button component={Link} variant='text' sx={{textDecoration:"underline"}}  to='/announcements'>View all announcements</Button>
+      <Button component={Link} variant='contained' size="small" sx={{m:4}}   to='/announcements'>View all announcements <ArrowForward sx={{mx:1}} fontSize="inherit"/></Button>
         </Grid>
         </Grid>
         <Values />
