@@ -40,6 +40,9 @@ import SingleEvent from "./Components/SingleEvent";
 import HomeworkForm from "./Components/HomeworkForm";
 import AnnouncementPanel from "./Components/AnnouncementPanel";
 import EventsPanel from "./Components/EventsPanel";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 
 
@@ -49,7 +52,7 @@ function App() {
 
   return (
     <React.Fragment>
-    
+      <QueryClientProvider client={queryClient}>
     <Appbar/>
 
  
@@ -89,6 +92,7 @@ function App() {
         <Route path="/events" element={<EventsPanel />} exact />
       </Routes>
       </Box>
+      </QueryClientProvider>
     </React.Fragment>
   );
 }

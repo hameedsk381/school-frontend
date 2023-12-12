@@ -19,36 +19,25 @@ const AlumniFeedbackForm = () => {
     lastClassStudied: '',
     yearOfPassing: '',
     principalName: '',
-    testimony: '',
-    image: null,
+    
     });
     const [formErrors, setFormErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [previewImage, setPreviewImage] = useState(null);
+    // const [previewImage, setPreviewImage] = useState(null);
     const [response,setResponse] = useState({});
     const [load,setLoad] = useState(false);
     const [err,setError] = useState(false);
     const handleChange = (event) => {
         const { name, value, type,  files } = event.target;
-    
-        if (type === "file") {
-          setFormData((prevData) => ({
-            ...prevData,
-            image: files[0],
-          }));
-    
-          setPreviewImage(URL.createObjectURL(files[0]));
-        } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-          }));
-        }
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
       };
     const submitForm = async(formdata)=>{
 try{
   
-  await axios.post(`${REACT_API_URL}/alumni`,formdata).then(res=> {setResponse(res)});
+  await axios.post(`${REACT_API_URL}/alumni`,formdata).then(res=> {console.log(res)});
 } catch(error){
  setError(error);
 }
@@ -64,10 +53,10 @@ try{
     submitdata.append("email", formData.email);
     submitdata.append("teachersName", formData.teachersName);
     submitdata.append("principalName", formData.principalName);
-    submitdata.append("testimony", formData.testimony);
+    // submitdata.append("testimony", formData.testimony);
     submitdata.append("yearOfPassing", formData.yearOfPassing);
     submitdata.append("lastClassStudied", formData.lastClassStudied);
-    submitdata.append("profileimg", formData.image);
+    // submitdata.append("profileimg", formData.image);
     setLoad(true)
 submitForm(submitdata);
 setLoad(false)
@@ -115,9 +104,7 @@ setInterval(()=>{
     if (!values.principalName) {
     errors.principalName = "Principal's name is required";
     }
-    if (!values.testimony) {
-    errors.testimony = 'Testimony is required';
-    }
+    
     return errors;
     };
     if (load) {
@@ -254,7 +241,7 @@ sx={{ mb: 2 }}
    ))}
    </Select>
  </FormControl>
- <TextField size="small"
+ {/* <TextField size="small"
    fullWidth
    required
    label="Testimony"
@@ -294,7 +281,7 @@ fullWidth
    alt="Profile Picture"
    sx={{ margin: "auto", width: "50%", height: "20%" ,my:2}}
  />
-)}
+)} */}
 
  <Button
    variant="contained"

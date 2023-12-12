@@ -17,6 +17,7 @@ import { Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../actions/userActions";
 import Drawercomp from "./Drawercomp";
+import AlumniRegistrationModal from "./AlumniRegistrationModal";
 
 const menu = [
   { name: "Home", route: "/" },
@@ -43,6 +44,16 @@ function Appbar() {
   const userstate = useSelector((state) => state.loginUserReducer);
   const { currentUser } = userstate;
   const dispatch = useDispatch();
+  const [isModalOpen, setModalOpen] = React.useState(false);
+
+  const handleOpenModal = () => {
+      setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+      setModalOpen(false);
+  };
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -227,6 +238,29 @@ function Appbar() {
                 Log out
               </Button>
             )}
+            <Button
+                variant="text"
+                size="small"
+                onClick={() => {
+                  window.location.href = "/login";
+                }}
+                sx={{
+                  fontSize: "10px",
+                  color: "white",
+                  display: { xs: "flex", md: "none" },
+                  fontFamily: "cinzel",
+                  transition: "transform .2s",
+                  "&:hover": {
+                    transform: "scale(1.1)",
+
+                    borderBottom: "1px solid #fafafa",
+                    boxShadow: "none",
+                  },
+                  pt: 2,
+                }}
+              >
+                Log in
+              </Button>
           </Stack>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -352,6 +386,28 @@ function Appbar() {
                   Log out
                 </Button>
               )}{" "}
+               <Button
+                  variant="text"
+                  size="small"
+                  onClick={handleOpenModal}
+                  sx={{
+                    fontSize: "10px",
+                    color: "white",
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "cinzel",
+                    transition: "transform .2s",
+                    "&:hover": {
+                      transform: "scale(1.1)",
+
+                      borderBottom: "1px solid #fafafa",
+                      boxShadow: "none",
+                    },
+                    pt: 2,
+                  }}
+                >
+                 Alumni Registration
+                </Button>
+                <AlumniRegistrationModal open={isModalOpen} onClose={handleCloseModal} />
             </Stack>
             <Menu
               sx={{ mt: "45px" }}
