@@ -1,301 +1,258 @@
+import React, { useState } from 'react';
+import { Alert, Button, Container, FormControl, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField, Typography, CircularProgress, FormControlLabel } from '@mui/material';
+import REACT_API_URL from '../config';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
+const AlumniFeedbackForm = ({onClose}) => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    mobileNumber: '',
+    emailAddress: '',
+    passedOutBatch: '',
+    currentPosition: '',
+    maritalStatus: '',
+    anythingToShare: '',
+    isVisiting: 'no', 
+  });
 
-import { UploadFile } from "@mui/icons-material";
-import { Alert, Avatar, Button, CircularProgress, Container, FormControl, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from "@mui/material";
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [response, setResponse] = useState({});
+  const [load, setLoad] = useState(false);
+  const [err, setError] = useState(false);
 
-import { useState } from "react";
-import REACT_API_URL from "../config";
-import axios from "axios";
-import Swal from "sweetalert2";
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-const AlumniFeedbackForm = () => {
-  
-    const [formData, setFormData] = useState({
-    name: '',
-    email:'',
-    fathersName: '',
-    mothersName: '',
-    teachersName: '',
-    lastClassStudied: '',
-    yearOfPassing: '',
-    principalName: '',
-    
-    });
-    const [formErrors, setFormErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    // const [previewImage, setPreviewImage] = useState(null);
-    const [response,setResponse] = useState({});
-    const [load,setLoad] = useState(false);
-    const [err,setError] = useState(false);
-    const handleChange = (event) => {
-        const { name, value, type,  files } = event.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      };
-    const submitForm = async(formdata)=>{
-try{
-  
-  await axios.post(`${REACT_API_URL}/alumni`,formdata).then(res=> {console.log(res)});
-} catch(error){
- setError(error);
-}
-    }
-    const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setFormErrors(validate(formData));
     setIsSubmitting(true);
-    const submitdata = new FormData();
-    submitdata.append("name", formData.name);
-    submitdata.append("fathersName", formData.fathersName);
-    submitdata.append("mothersName", formData.mothersName);
-    submitdata.append("email", formData.email);
-    submitdata.append("teachersName", formData.teachersName);
-    submitdata.append("principalName", formData.principalName);
-    // submitdata.append("testimony", formData.testimony);
-    submitdata.append("yearOfPassing", formData.yearOfPassing);
-    submitdata.append("lastClassStudied", formData.lastClassStudied);
-    // submitdata.append("profileimg", formData.image);
-    setLoad(true)
-submitForm(submitdata);
-setLoad(false)
-if(response.status === 200){
-  Swal.fire(response.data.message)
-} else {
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: `${response.data.message}`,
-    
-   
-  })
-}
-setInterval(()=>{
-  window.location.reload()
-},3000)
+  
+    const submitData = {
+      fullName: formData.fullName,
+      mobileNumber: formData.mobileNumber,
+      emailAddress: formData.emailAddress,
+      passedOutBatch: formData.passedOutBatch,
+      currentPosition: formData.currentPosition,
+      maritalStatus: formData.maritalStatus,
+      anythingToShare: formData.anythingToShare,
+      isVisiting: formData.isVisiting,
     };
-    
-    const validate = (values) => {
-    let errors = {};
-    if (!values.name) {
-    errors.name = 'Name is required';
-    }
-    if (!values.email) {
-      errors.email = 'Email is required';
+  
+    try {
+      setLoad(true);
+  
+      // Assuming your backend API endpoint is '/alumni'
+      const response = await axios.post(`${REACT_API_URL}/alumni`, submitData);
+  
+      setLoad(false);
+  
+      if (response.status === 200) {
+        Swal.fire(response.data.message);
+        onClose()
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${response.data.message}`,
+        });
       }
-    if (!values.fathersName) {
-    errors.fathersName = "Father's name is required";
+  
+      // setInterval(() => {
+      //   window.location.reload();
+      // }, 3000);
+    } catch (error) {
+      setLoad(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while submitting the form. Please try again.',
+      });
+      console.error('Error submitting form:', error);
     }
-    if (!values.mothersName) {
-    errors.mothersName = "Mother's name is required";
+  };
+  
+
+  const validate = (values) => {
+    let errors = {};
+    if (!values.fullName) {
+      errors.fullName = 'Full Name is required';
     }
-    if (!values.teachersName) {
-    errors.teachersName = "Teacher's name is required";
+    if (!values.mobileNumber) {
+      errors.mobileNumber = 'Mobile Number is required';
+    } else if (!/^\d{10}$/.test(values.mobileNumber)) {
+      errors.mobileNumber = 'Invalid mobile number format';
     }
-    if (!values.lastClassStudied) {
-    errors.lastClassStudied = 'Last class studied is required';
+    if (!values.emailAddress) {
+      errors.emailAddress = 'Email Address is required';
+    } else if (!/\S+@\S+\.\S+/.test(values.emailAddress)) {
+      errors.emailAddress = 'Invalid email address';
     }
-    if (!values.yearOfPassing) {
-    errors.yearOfPassing = 'Year of passing is required';
-    } else if (!/^\d{4}$/.test(values.yearOfPassing)) {
-    errors.yearOfPassing = 'Invalid year format';
+    if (!values.passedOutBatch) {
+      errors.passedOutBatch = 'Passed Out Batch is required';
     }
-    if (!values.principalName) {
-    errors.principalName = "Principal's name is required";
+    if (!values.currentPosition) {
+      errors.currentPosition = 'Current Position is required';
     }
-    
+    if (!values.maritalStatus) {
+      errors.maritalStatus = 'Marital Status is required';
+    }
+    if (!values.anythingToShare) {
+      errors.anythingToShare = 'Please share something';
+    }
     return errors;
-    };
-    if (load) {
-      return <CircularProgress sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '400px'
-        }} />;
-    }
-    if (err) {
-      return <Alert severity="error" sx={{
+  };
+
+  if (load) {
+    return (
+      <CircularProgress
+        sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           height: '400px',
-          color: 'red'
-        }}><Typography variant='h6'>{err}</Typography></Alert>;
-    }
+          marginInline:"50%",overflow:"hidden"
+        }}
+      />
+    );
+  }
+
+  if (err) {
     return (
-    <Container sx={{width:{md:"50%",lg:"33%"}}}>
-    <Paper elevation={3} sx={{p:3}} >
-    <Typography textAlign={'center'} variant="h4" gutterBottom>
-    Alumni  Form
-    </Typography>
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-   <Stack spacing={2}>
-   <TextField size="small"
-   fullWidth
-   required
-   label="Name"
-   name="name"
-   value={formData.name}
-   onChange={handleChange}
-   error={formErrors.name && isSubmitting}
-   helperText={formErrors.name && isSubmitting && formErrors.name}
-   margin="normal"
-   />
-   <TextField size="small"
-   fullWidth
-   required
-   label="Email"
-   name="email"
-   type="email"
-   
-   value={formData.email}
-   onChange={handleChange}
-   error={formErrors.email && isSubmitting}
-   helperText={formErrors.email && isSubmitting && formErrors.email}
-   margin="normal"
-   />
-   <TextField size="small"
-   fullWidth
-   required
-   label="Father's Name"
-   name="fathersName"
-   value={formData.fathersName}
-   onChange={handleChange}
-   error={formErrors.fathersName && isSubmitting}
-   helperText={
-   formErrors.fathersName && isSubmitting && formErrors.fathersName
-   }
-   margin="normal"
-   />
-   <TextField size="small"
-   fullWidth
-   required
-   label="Mother's Name"
-   name="mothersName"
-   value={formData.mothersName}
-   onChange={handleChange}
-   error={formErrors.mothersName && isSubmitting}
-   helperText={
-   formErrors.mothersName && isSubmitting && formErrors.mothersName
-   }
-   margin="normal"
-   />
-   <TextField size="small"
-   fullWidth
-   required
-   label="Teacher's Name"
-   name="teachersName"
-   value={formData.teachersName}
-   onChange={handleChange}
-   error={formErrors.teachersName && isSubmitting}
-   helperText={
-   formErrors.teachersName && isSubmitting && formErrors.teachersName
-   }
-   margin="normal"
-   />
-   <TextField size="small"
-   fullWidth
-   required
-   label="Principal's Name"
-   name="principalName"
-   value={formData.principalName}
-   onChange={handleChange}
-   error={formErrors.principalName && isSubmitting}
-   helperText={
-   formErrors.principalName && isSubmitting && formErrors.principalName
-   }
-   margin="normal"
-   />
-   <TextField size="small"
-fullWidth
-required
-label="Year of Passing"
-name="yearOfPassing"
-type="number"
-min="1980"
-max={new Date().getFullYear()}
-value={formData.yearOfPassing}
-onChange={handleChange}
-error={formErrors.yearOfPassing && isSubmitting}
-helperText={
-formErrors.yearOfPassing && isSubmitting && formErrors.yearOfPassing
-}
+      <Alert
+        severity="error"
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '400px',
+          color: 'red',
+        }}
+      >
+        <Typography variant="h6">{err}</Typography>
+      </Alert>
+    );
+  }
 
-margin="normal"
-sx={{ mb: 2 }}
-/>
-   <FormControl required fullWidth margin="normal">
-  <InputLabel>Last class studied</InputLabel>
-   <Select
-   variant="standard"
-     name="lastClassStudied"
-     value={formData.lastClassStudied}
-     onChange={handleChange}
-     
-   >
-    
-   {["LKG","UKG",1,2,3,4,5,6,7,8,9,10].map(item=>(
-       <MenuItem value={item} key={item}>{item}</MenuItem>
-   ))}
-   </Select>
- </FormControl>
- {/* <TextField size="small"
-   fullWidth
-   required
-   label="Testimony"
-   name="testimony"
-   value={formData.testimony}
-   onChange={handleChange}
-   variant="outlined"
-   margin="normal"
-   multiline
-   rows={4}
- />
- <input
- accept="image/*"
- id="profile-picture"
- type="file"
- name="profilePicture"
- onChange={handleChange}
- style={{ display: "none" }}
-/>
-
-<InputLabel htmlFor="profile-picture">
- <Button
-   variant="contained"
-   color="primary"
-   component="span"
-
-fullWidth
- >
-<UploadFile  sx={{mx:2}}/>   Upload Profile Picture
- </Button>
-</InputLabel>
-
-{previewImage && (
- <Avatar
-   variant="square"
-   src={previewImage}
-   alt="Profile Picture"
-   sx={{ margin: "auto", width: "50%", height: "20%" ,my:2}}
- />
-)} */}
-
- <Button
-   variant="contained"
-   color="primary"
-   type="submit"
-sx={{my:2}}
- >
-   Submit
- </Button>
-   </Stack>
-</form>
-</Paper>
-</Container>
-)}
-
+  return (
+    <Container maxWidth="sm">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <Stack spacing={2}>
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Full Name"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            error={formErrors.fullName && isSubmitting}
+            helperText={formErrors.fullName && isSubmitting && formErrors.fullName}
+            margin="normal"
+          />
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Mobile Number"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            error={formErrors.mobileNumber && isSubmitting}
+            helperText={formErrors.mobileNumber && isSubmitting && formErrors.mobileNumber}
+            margin="normal"
+          />
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Email Address"
+            name="emailAddress"
+            type="email"
+            value={formData.emailAddress}
+            onChange={handleChange}
+            error={formErrors.emailAddress && isSubmitting}
+            helperText={formErrors.emailAddress && isSubmitting && formErrors.emailAddress}
+            margin="normal"
+          />
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Passed Out Batch"
+            name="passedOutBatch"
+            value={formData.passedOutBatch}
+            onChange={handleChange}
+            error={formErrors.passedOutBatch && isSubmitting}
+            helperText={formErrors.passedOutBatch && isSubmitting && formErrors.passedOutBatch}
+            margin="normal"
+          />
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Current Position"
+            name="currentPosition"
+            value={formData.currentPosition}
+            onChange={handleChange}
+            error={formErrors.currentPosition && isSubmitting}
+            helperText={formErrors.currentPosition && isSubmitting && formErrors.currentPosition}
+            margin="normal"
+          />
+          <FormControl component="fieldset" fullWidth margin="normal">
+            <FormLabel component="legend">Marital Status</FormLabel>
+            <RadioGroup
+              row
+              aria-label="Marital Status"
+              name="maritalStatus"
+              value={formData.maritalStatus}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="single" control={<Radio />} label="Single" />
+              <FormControlLabel value="married" control={<Radio />} label="Married" />
+            </RadioGroup>
+          </FormControl>
+          <TextField
+            size="small"
+            fullWidth
+            required
+            label="Your thoughts about the school.."
+            name="anythingToShare"
+            value={formData.anythingToShare}
+            onChange={handleChange}
+            error={formErrors.anythingToShare && isSubmitting}
+            helperText={formErrors.anythingToShare && isSubmitting && formErrors.anythingToShare}
+            multiline
+            rows={4}
+            margin="normal"
+          />
+          <FormControl component="fieldset" fullWidth margin="normal">
+            <FormLabel component="legend">Confirm your participation for Alumni meet on Jan 14</FormLabel>
+            <RadioGroup
+              row
+              aria-label="Are you visiting?"
+              name="isVisiting"
+              value={formData.isVisiting}
+              onChange={handleChange}
+            >
+              <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+              <FormControlLabel value="no" control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>
+          <Button variant="contained" color="primary" type="submit" sx={{ my: 2 }}>
+            Submit
+          </Button>
+        </Stack>
+      </form>
+    </Container>
+  );
+};
 
 export default AlumniFeedbackForm;

@@ -91,18 +91,16 @@ function AlumniFeedbackTable() {
             <TableBody>
               {feedbackData.map((feedback) => (
                 <TableRow key={feedback._id}>
-                  <TableCell>{feedback.name}</TableCell>
-                  <TableCell>{feedback.email}</TableCell>
-                  <TableCell>{feedback.fathersName}</TableCell>
-                  <TableCell>{feedback.mothersName}</TableCell>
-                  <TableCell>{feedback.teachersName}</TableCell>
-                  <TableCell>{feedback.lastClassStudied}</TableCell>
-                  <TableCell>{feedback.yearOfPassing}</TableCell>
-                  <TableCell>{feedback.testimony}</TableCell>
-                  <TableCell>{feedback.principalName}</TableCell>
-                  <TableCell>
-  <Avatar src={`data:image/png;base64,${feedback.image}`} alt="Alumni Image" />
-</TableCell>
+                 <TableCell>{feedback.fullName}</TableCell>
+<TableCell>{feedback.emailAddress}</TableCell>
+<TableCell>{feedback.fathersName}</TableCell>
+<TableCell>{feedback.mothersName}</TableCell>
+<TableCell>{feedback.teachersName}</TableCell>
+<TableCell>{feedback.lastClassStudied}</TableCell>
+<TableCell>{feedback.yearOfPassing}</TableCell>
+<TableCell>{feedback.anythingToShare}</TableCell>
+
+
 
                   <TableCell>
                     <IconButton onClick={() => handleDelete(feedback._id)}>
