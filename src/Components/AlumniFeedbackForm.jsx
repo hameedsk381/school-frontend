@@ -63,9 +63,9 @@ const AlumniFeedbackForm = ({onClose}) => {
   }
     
   
-      // setInterval(() => {
-      //   window.location.reload();
-      // }, 3000);
+      setInterval(() => {
+        window.location.reload();
+      }, 3000);
     } catch (error) {
       setLoad(false);
       Swal.fire({
