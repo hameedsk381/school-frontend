@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Container, FormControl, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField, Typography, CircularProgress, FormControlLabel } from '@mui/material';
+import { Alert, Button, Container, FormControl, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField, Typography, CircularProgress, FormControlLabel, LinearProgress } from '@mui/material';
 import REACT_API_URL from '../config';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -18,7 +18,8 @@ const AlumniFeedbackForm = ({onClose}) => {
 
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState("");
+  const [responseStatus, setResponseStatus] = useState(false);
   const [load, setLoad] = useState(false);
   const [err, setError] = useState(false);
 
@@ -50,20 +51,17 @@ const AlumniFeedbackForm = ({onClose}) => {
       setLoad(true);
   
       // Assuming your backend API endpoint is '/alumni'
-      const response = await axios.post(`${REACT_API_URL}/alumni`, submitData);
-  
+      const res = await axios.post(`${REACT_API_URL}/alumni`, submitData);
+ 
       setLoad(false);
-  
-      if (response.status === 200) {
-        Swal.fire(response.data.message);
-        onClose()
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${response.data.message}`,
-        });
-      }
+  if(res.status == 200){
+    setResponseStatus(true)
+    setResponse(res.data.message)
+  } else {
+    setResponseStatus(!responseStatus)
+    setResponse(res.data.message)
+  }
+    
   
       // setInterval(() => {
       //   window.location.reload();
@@ -110,19 +108,7 @@ const AlumniFeedbackForm = ({onClose}) => {
     return errors;
   };
 
-  if (load) {
-    return (
-      <CircularProgress
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '400px',
-          marginInline:"50%",overflow:"hidden"
-        }}
-      />
-    );
-  }
+ 
 
   if (err) {
     return (
@@ -142,8 +128,8 @@ const AlumniFeedbackForm = ({onClose}) => {
   }
 
   return (
-    <Container maxWidth="sm">
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <Container maxWidth="sm" sx={{py:"5rem"}}>
+     {responseStatus ? <Alert severity='info'>{response}</Alert> :  <form onSubmit={handleSubmit} encType="multipart/form-data">
         <Stack spacing={2}>
           <TextField
             size="small"
@@ -246,11 +232,12 @@ const AlumniFeedbackForm = ({onClose}) => {
               <FormControlLabel value="no" control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
-          <Button variant="contained" color="primary" type="submit" sx={{ my: 2 }}>
-            Submit
-          </Button>
+          {load ? <LinearProgress/> :  <Button variant="contained" color="primary" type="submit" sx={{ my: 2 }}>
+         submit
+         </Button>}
+         
         </Stack>
-      </form>
+      </form>}
     </Container>
   );
 };
