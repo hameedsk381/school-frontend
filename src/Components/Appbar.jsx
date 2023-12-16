@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../actions/userActions";
 import Drawercomp from "./Drawercomp";
 import AlumniRegistrationModal from "./AlumniRegistrationModal";
+import Marquee from "react-fast-marquee";
 
 const menu = [
   { name: "Home", route: "/" },
@@ -238,29 +239,7 @@ function Appbar() {
                 Log out
               </Button>
             )}
-            <Button
-                variant="text"
-                size="small"
-                onClick={() => {
-                  window.location.href = "/login";
-                }}
-                sx={{
-                  fontSize: "10px",
-                  color: "white",
-                  display: { xs: "flex", md: "none" },
-                  fontFamily: "cinzel",
-                  transition: "transform .2s",
-                  "&:hover": {
-                    transform: "scale(1.1)",
-
-                    borderBottom: "1px solid #fafafa",
-                    boxShadow: "none",
-                  },
-                  pt: 2,
-                }}
-              >
-                Log in
-              </Button>
+             
           </Stack>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -434,6 +413,10 @@ function Appbar() {
           </Box>
         </Toolbar>
       </Container>
+      <Marquee gradient={false}>
+        For alumni registrations
+        <Link style={{fontFamily:"sans-serif",fontSize:"small",marginInline:"5px",textDecoration:"underline"}} to={'/alumni'}> click here</Link>
+      </Marquee>
     </AppBar>
   );
 }

@@ -13,12 +13,17 @@ const Facultypage = ({ dept }) => {
     try {
       setLoading(true);
       const res = await axios.get(`${REACT_API_URL}/users/${dept}`);
-      setDepusers(res.data);
+      
+      // Filter users where isAdmin is false
+      const filteredUsers = res.data.filter(user => !user.isAdmin);
+  
+      setDepusers(filteredUsers);
       setLoading(false);
     } catch (error) {
       setErr(true);
     }
   };
+  
 
   useEffect(() => {
     fetchUsers();
