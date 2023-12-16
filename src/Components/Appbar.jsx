@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-
+import './Appbar.css'
 import Button from "@mui/material/Button";
 
 import MenuItem from "@mui/material/MenuItem";
@@ -413,10 +413,28 @@ function Appbar() {
           </Box>
         </Toolbar>
       </Container>
-      <Marquee gradient={false} style={{backgroundColor:"white",color:"Highlight"}}>
-        For alumni registrations
-        <Link style={{fontFamily:"sans-serif",fontSize:"small",marginInline:"5px",textDecoration:"underline"}} to={'/alumni'}> click here</Link>
-      </Marquee>
+      <Marquee gradient={false} style={{ backgroundColor: "white", color: "red" }}>
+  <span
+    style={{
+      display: "inline-block",
+      animation: "blinkingText 1s infinite",
+    }}
+  >
+    For alumni registrations
+    <Link
+      style={{
+        fontFamily: "sans-serif",
+        fontSize: "small",
+        marginInline: "5px",
+        textDecoration: "underline",
+      }}
+      to={'/alumni'}
+    >
+      click here
+    </Link>
+  </span>
+</Marquee>
+
     </AppBar>
   );
 }

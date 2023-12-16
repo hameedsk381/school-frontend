@@ -28,7 +28,7 @@ export default function Alumni() {
     fetchData();
   }, []);
   return (
-    <Box sx={{ display: 'flex', overflowX: 'scroll', py: 2 }}>
+    <Box sx={{ display: 'flex', overflowX: 'hidden', py: 2 }}>
     {loading ? (
       <CircularProgress />
     ) : error ? (
@@ -77,7 +77,7 @@ key={i}
             href="#interactive-card"
             sx={{ color: '#000000',fontSize:"20px" }}
           >
-           {feedback.name}
+           {feedback.fullName}
           </Link>
         </Typography>
         <Chip
@@ -86,7 +86,7 @@ key={i}
           size="lg"
           sx={{ pointerEvents: 'none',fontWeight:"bold" }}
         >
-          Alumni  {feedback.yearOfPassing}
+          Alumni <br/> {feedback.passedOutBatch}
         </Chip>
       </div>
     </Card>))
