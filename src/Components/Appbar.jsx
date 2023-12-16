@@ -413,7 +413,7 @@ function Appbar() {
           </Box>
         </Toolbar>
       </Container>
-      <Marquee gradient={false}>
+      <Marquee gradient={false} style={{backgroundColor:"white",color:"Highlight"}}>
         For alumni registrations
         <Link style={{fontFamily:"sans-serif",fontSize:"small",marginInline:"5px",textDecoration:"underline"}} to={'/alumni'}> click here</Link>
       </Marquee>
