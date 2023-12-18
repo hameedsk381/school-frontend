@@ -296,22 +296,7 @@ const Home = () => {
           />
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: {
-              xs: "none",
-              md: "flex",
-              backgroundColor: "#2196f3",
-              margin: "auto",
-            },
-          }}
-        >
-          <Marquee gradient={false}>
-            <Alumni />
-          </Marquee>
-        </Grid>
+        
         <Grid
           item
           xs={12}
