@@ -30,7 +30,7 @@ import AlumniFeedbackForm from "./Components/AlumniFeedbackForm";
 
 
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
 import Announcements from "./Components/Announcements";
 import Announcementpage from "./Components/Announcementpage";
 import Announcement from "./Components/Announcement";
@@ -41,26 +41,31 @@ import HomeworkForm from "./Components/HomeworkForm";
 import AnnouncementPanel from "./Components/AnnouncementPanel";
 import EventsPanel from "./Components/EventsPanel";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AdmForm from "./Components/AdmForm";
 
 const queryClient = new QueryClient();
 
-
-
-
 function App() {
-  
+  const [openModal, setOpenModal] = useState(true); // Initialize state to true
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    const isModalOpen = localStorage.getItem("isModalOpen"); // Check if modal should be open
+    if (isModalOpen === "false") {
+      setOpenModal(false); // Close the modal if the value is "false"
+    }
+  }, []);
 
   return (
     <React.Fragment>
       <QueryClientProvider client={queryClient}>
-    <Appbar/>
-
- 
-
-
-      <Box >
-      
-      <Routes>
+        <Appbar />
+        {/* <AdmForm open={openModal} onClose={handleCloseModal} /> */}
+        <Box>
+        <Routes>
         <Route path="*" element={<NotFoundPage />} exact />
         <Route path="/" element={<Home />} exact />
 
@@ -90,8 +95,10 @@ function App() {
         <Route path="/homeworkform" element={<HomeworkForm />} exact />
         <Route path="/announcements" element={<AnnouncementPanel />} exact />
         <Route path="/events" element={<EventsPanel />} exact />
+        <Route path="/admissionform" element={<AdmForm />} exact />
+        
       </Routes>
-      </Box>
+        </Box>
       </QueryClientProvider>
     </React.Fragment>
   );

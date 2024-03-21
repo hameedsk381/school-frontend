@@ -384,7 +384,7 @@ function Appbar() {
                     pt: 2,
                   }}
                 >
-                 Alumni Registration
+                 Admission Corner
                 </Button>
                 <AlumniRegistrationModal open={isModalOpen} onClose={handleCloseModal} />
             </Stack>
@@ -420,7 +420,7 @@ function Appbar() {
       animation: "blinkingText 1s infinite",
     }}
   >
-    For alumni registrations
+    For admissions
     <Link
       style={{
         fontFamily: "sans-serif",
@@ -428,7 +428,7 @@ function Appbar() {
         marginInline: "5px",
         textDecoration: "underline",
       }}
-      to={'/alumni'}
+      to={'/admissionform'}
     >
       click here
     </Link>

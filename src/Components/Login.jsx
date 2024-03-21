@@ -46,7 +46,7 @@ export default function Login() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         
-        {error && <Alert severity="error">Invalid Credentials</Alert>}
+        {error && <Alert severity="error">Invalid Credentials </Alert>}
 
         <Box
           sx={{
