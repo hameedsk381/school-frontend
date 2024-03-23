@@ -63,7 +63,7 @@ function Announcement() {
   }
 
   return (
-  <Box sx={{py:4,width:"100vw",height:"100vh",bgcolor:'Highlight'}} >
+  <Box sx={{py:4,width:"100vw",height:"100vh",bgcolor:"#2196f3"}} >
   <Root  elevation={4} > 
   <Box
   component="img"

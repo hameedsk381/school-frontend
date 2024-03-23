@@ -65,7 +65,7 @@ const Alumniform = () => {
           width: "20%",
         }}
       />
-      <Typography variant='h4' color={'Highlight'}>Alumni</Typography>
+      <Typography variant='h4' color={"#2196f3"}>Alumni</Typography>
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2} sx={{ width: { xs: 320, md: 480 } }}>
           <Grid item xs={12}>

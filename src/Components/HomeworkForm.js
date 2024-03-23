@@ -74,7 +74,7 @@ const HomeworkForm = () => {
  return (
     <Card sx={{width:{xs:"80%",md:"50%",lg:"35%"},margin:"auto",marginBlock:6}}>
       <CardContent component={Stack} spacing={3}>
-        <Typography variant="h5" component="h1" sx={{color:"Highlight"}} >
+        <Typography variant="h5" component="h1" sx={{color:"#2196f3"}} >
           Upload Homework
         </Typography>
         <form onSubmit={handleSubmit}>

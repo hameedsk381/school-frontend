@@ -17,7 +17,7 @@ export default function Messagecard() {
       {id === "Principal" ? (
         <Box>
           <Box component="div" role="presentation" sx={{ my: 2 }}>
-            <Typography variant="h5" my={1} color={"Highlight"}>
+            <Typography variant="h5" my={1} color={"#2196f3"}>
               {id}'s Message
             </Typography>
             <Breadcrumbs aria-label="breadcrumb">
@@ -25,7 +25,7 @@ export default function Messagecard() {
                 Home
               </Link>
 
-              <Typography sx={{ color: "Highlight" }}>Message</Typography>
+              <Typography sx={{ color: "#2196f3" }}>Message</Typography>
             </Breadcrumbs>
           </Box>
           
@@ -73,7 +73,7 @@ export default function Messagecard() {
       ) : (
         <Box>
           <Box component="div" role="presentation" sx={{ my: 2 }}>
-            <Typography variant="h5" my={1} color={"Highlight"}>
+            <Typography variant="h5" my={1} color={"#2196f3"}>
               {id}'s Message
             </Typography>
             <Breadcrumbs aria-label="breadcrumb">
@@ -81,7 +81,7 @@ export default function Messagecard() {
                 Home
               </Link>
 
-              <Typography sx={{ color: "Highlight" }}>Message</Typography>
+              <Typography sx={{ color: "#2196f3" }}>Message</Typography>
             </Breadcrumbs>
           </Box>
           <Box sx={{ py: 4, height: "100%", bgcolor: "white" }} elevation={3}>

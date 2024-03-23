@@ -58,7 +58,7 @@ const HomeworkTable = ({ classname, section }) => {
               <TableCell align="left"   >
                 <Typography sx={{ fontSize: { xs: 12, md: 14, lg: 16 }, textTransform: "capitalize" }}>{row.description || 'No homework for today'}</Typography>
                 <Divider sx={{ my: 1 }} />
-                <Typography color={'Highlight'} sx={{ fontSize: { xs: 10, md: 12, lg: 14 }, textTransform: "capitalize" }}>Note :  {row.note || '-'}</Typography>
+                <Typography color={"#2196f3"} sx={{ fontSize: { xs: 10, md: 12, lg: 14 }, textTransform: "capitalize" }}>Note :  {row.note || '-'}</Typography>
               </TableCell>
               <TableCell align="left"   >{row.regId || '-'}</TableCell>
             </TableRow>

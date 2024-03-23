@@ -50,7 +50,7 @@ const Values = () => {
                 <img
                   src={value.image}
                   alt={value.title}
-                  style={{color:"Highlight"}}
+                  style={{color:"#2196f3"}}
                   className="img-fluid object-center  m-auto w-[35%] h-[50%] md:h-[40%] md:w-[50%] rounded-3xl px-2"
                 />
                

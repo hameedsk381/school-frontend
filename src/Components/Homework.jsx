@@ -59,7 +59,7 @@ const Homework = () => {
        Home
      </Link>
 
-     <Typography sx={{ color: "Highlight" }}>Homework</Typography>
+     <Typography sx={{ color: "#2196f3" }}>Homework</Typography>
    </Breadcrumbs>
  </Box>
    
@@ -101,7 +101,7 @@ const Homework = () => {
                 }
               >
                 <ListItemButton>
-                  <ListItemText sx={{color:'Highlight'}}
+                  <ListItemText sx={{color:"#2196f3"}}
                     primary={`CLASS - ${item.classname} / SECTION - ${item.section}`}
                   />
                 </ListItemButton>

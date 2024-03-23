@@ -69,7 +69,7 @@ export default function Message({ name, message, role, caption }) {
           
               to={`/message/${role}`}
               
-              style={{ alignItems: "center", margin: "auto", marginLeft: "4px",fontSize:"12px",color:'Highlight',textDecoration:"underline" }}
+              style={{ alignItems: "center", margin: "auto", marginLeft: "4px",fontSize:"12px",color:"#2196f3",textDecoration:"underline" }}
             >
               {" "}
               Read more

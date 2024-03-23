@@ -28,7 +28,7 @@ const AnnouncementPanel = () => {
        
   return (
     <Card elevation={0} sx={{height:300}}>
-      <CardHeader  sx={{backgroundColor:'Highlight'}}
+      <CardHeader  sx={{backgroundColor:'#2196f3'}}
       title="Announcements" titleTypographyProps={{
         variant: "h5",
         align: "center",
@@ -45,7 +45,7 @@ const AnnouncementPanel = () => {
                   <ListItemIcon><CampaignOutlined/></ListItemIcon>
                     <ListItemText sx={{textTransform:"capitalize"}}
                       primary={
-                        <Typography variant="body1" sx={{color:'Highlight'}} component={Link} to={`/announcement/${announcement._id}`}>
+                        <Typography variant="body1" sx={{color:'#2196f3'}} component={Link} to={`/announcement/${announcement._id}`}>
                           {announcement.title}
                         </Typography>
                       }

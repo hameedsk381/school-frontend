@@ -37,7 +37,7 @@ const EventsPanel = () => {
               <TimelineContent>
                 <Card sx={{ mb: 3 }}>
                   <CardContent>
-                    <Typography variant="h6" component={Link} sx={{color:'Highlight',textTransform:"capitalize"}}>
+                    <Typography variant="h6" component={Link} sx={{color:"#2196f3",textTransform:"capitalize"}}>
                       {event.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">

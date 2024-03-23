@@ -1,6 +1,7 @@
 {
   "name": "school",
   "version": "0.1.0",
+  "author": "hameed",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -47,6 +48,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-signature-canvas": "^1.0.6",
     "react-slick": "^0.29.0",
     "react-toastify": "^9.1.2",
     "redux": "^4.2.0",

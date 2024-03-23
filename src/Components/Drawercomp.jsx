@@ -99,7 +99,7 @@ export default function Drawercomp() {
                   "& .MuiListItemButton-root:hover": {
                     bgcolor: "white",
                     "&, & .MuiListItemIcon-root": {
-                      color: "Highlight",
+                      color: "#2196f3",
                     },
                   },
                 }}
@@ -130,7 +130,7 @@ export default function Drawercomp() {
                   "& .MuiListItemButton-root:hover": {
                     bgcolor: "white",
                     "&, & .MuiListItemIcon-root": {
-                      color: "Highlight",
+                      color: "#2196f3",
                     },
                   },
                 }}

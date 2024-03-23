@@ -27,7 +27,7 @@ const Academics = () => {
  </Grid>
  <Grid item xs={9}>
  <Stack>
- <Typography variant='h6' color={'whitesmoke'} bgcolor='Highlight' p={1}>Teaching Methodologies</Typography>
+ <Typography variant='h6' color={'whitesmoke'} bgcolor="#2196f3" p={1}>Teaching Methodologies</Typography>
 
  <Typography p={2}>
 

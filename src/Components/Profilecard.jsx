@@ -34,7 +34,7 @@ export default function Profilecard({ data }) {
 
       <CardContent>
         <Typography
-          color={"Highlight"}
+          color={"#2196f3"}
           gutterBottom
           variant="body1"
           component="div"
