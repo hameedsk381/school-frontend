@@ -355,7 +355,7 @@ passport.append('file',value);
     } catch (error) {
         setLoading(false)
       setShowsnack(true);
-      setSnackmsg(error.message);
+      setSnackmsg('Something went wrong try submitting again after 2 mins . if the problem still occurs contact school');
       setSnacktype('error');
     }
   };
