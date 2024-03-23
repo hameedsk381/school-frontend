@@ -22,6 +22,7 @@ import SignatureCanvas from 'react-signature-canvas';
 import avatar from '../assets/avtar.png'
 import REACT_API_URL from '../config';
 import axios from 'axios';
+import logo from "../assets/logo2.png";
 const AdmForm = () => {
     const initialState = {
         studentName: '',
@@ -362,6 +363,15 @@ passport.append('file',value);
 
   return (
     <Grid component={'form'} onSubmit={handleSubmit} container spacing={2} p={5}>
+         <Box
+            component="img"
+            src={logo}
+            href="/"
+            sx={{
+              m: 'auto',
+              width: {xs:"20%",md:"5%"},
+            }}
+          />
       <Grid item xs={12}>
         <Typography my={2} variant="h4" textAlign={'center'} gutterBottom>
           Admission Form
