@@ -37,11 +37,11 @@ const AnnouncementPanel = () => {
       }}
        />
       <CardContent sx={{ height: 280, overflow: 'auto' }}>
-        
+      <List disablePadding component={'ul'}>
           {announcements && announcements.map((announcement, index) => (
            
-                <List disablePadding component={'ul'}>
-                  <ListItem disablePadding>
+               
+                  <ListItem key={index} disablePadding>
                   <ListItemIcon><CampaignOutlined/></ListItemIcon>
                     <ListItemText sx={{textTransform:"capitalize"}}
                       primary={
@@ -52,10 +52,10 @@ const AnnouncementPanel = () => {
                       secondary={`${announcement.description.substring(0, 101)}...`}
                     />
                   </ListItem>
-                </List>
+              
             
           ))}
-        
+          </List>
       </CardContent>
       
 

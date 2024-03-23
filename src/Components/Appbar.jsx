@@ -365,7 +365,7 @@ function Appbar() {
                   Log out
                 </Button>
               )}{" "}
-               <Button
+               {/* <Button
                   variant="text"
                   size="small"
                   onClick={handleOpenModal}
@@ -385,7 +385,7 @@ function Appbar() {
                   }}
                 >
                  Admission Corner
-                </Button>
+                </Button> */}
                 <AlumniRegistrationModal open={isModalOpen} onClose={handleCloseModal} />
             </Stack>
             <Menu
