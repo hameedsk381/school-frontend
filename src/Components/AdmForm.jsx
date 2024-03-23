@@ -23,6 +23,7 @@ import avatar from '../assets/avtar.png'
 import REACT_API_URL from '../config';
 import axios from 'axios';
 import logo from "../assets/logo2.png";
+import { Check } from '@mui/icons-material';
 const AdmForm = () => {
     const initialState = {
         studentName: '',
@@ -69,7 +70,9 @@ const AdmForm = () => {
   const [snack, setShowsnack] = useState(false);
   const [snackmsg,setSnackmsg] = useState('');
   const [snacktype,setSnacktype] = useState('info');
+  const [success,setSuccess] = useState(false)
   const [loading,setLoading] = useState(false)
+  const [err,setError] = useState(false);
   const nationalityOptions = ['India', 'America', 'Canada', 'Australia', 'United Kingdom', 'Germany', 'France', 'Japan', 'China', 'Brazil', 'South Africa', 'Russia', 'Italy', 'Spain', 'Mexico', 'Argentina', 'Nigeria', 'Indonesia', 'Pakistan', 'Bangladesh', 'Philippines', 'Vietnam', 'Turkey', 'Iran', 'Thailand', 'Myanmar', 'South Korea', 'Kenya', 'Colombia', 'Spain', 'Ukraine', 'Tanzania', 'Argentina', 'Algeria', 'Uganda', 'Sudan', 'Iraq', 'Poland', 'Canada', 'Morocco', 'Afghanistan', 'Saudi Arabia', 'Peru', 'Venezuela', 'Malaysia', 'Uzbekistan', 'Mozambique', 'Ghana', 'Yemen', 'Nepal', 'Venezuela', 'Madagascar', 'Cameroon', 'Côte dIvoire', 'North Korea', 'Australia', 'Niger', 'Taiwan', 'Sri Lanka', 'Burkina Faso', 'Mali', 'Romania', 'Malawi', 'Chile', 'Kazakhstan', 'Zambia', 'Guatemala', 'Ecuador', 'Syria', 'Netherlands', 'Senegal', 'Cambodia', 'Chad', 'Somalia', 'Zimbabwe', 'Guinea', 'Rwanda', 'Benin', 'Burundi', 'Tunisia', 'Bolivia', 'Belgium', 'Haiti', 'Cuba', 'South Sudan', 'Dominican Republic', 'Czech Republic', 'Greece', 'Jordan', 'Portugal', 'Azerbaijan', 'Sweden', 'Honduras', 'United Arab Emirates', 'Hungary', 'Tajikistan', 'Belarus', 'Austria', 'Papua New Guinea', 'Serbia', 'Israel', 'Switzerland', 'Togo', 'Sierra Leone', 'Hong Kong', 'Laos', 'Paraguay', 'Bulgaria', 'Libya', 'Lebanon', 'Nicaragua', 'Kyrgyzstan', 'El Salvador', 'Turkmenistan', 'Singapore', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Oman', 'State of Palestine', 'Costa Rica', 'Liberia', 'Ireland', 'Central African Republic', 'New Zealand', 'Mauritania', 'Panama', 'Kuwait', 'Croatia', 'Moldova', 'Georgia', 'Eritrea', 'Uruguay', 'Bosnia and Herzegovina', 'Mongolia', 'Armenia', 'Jamaica', 'Qatar', 'Albania', 'Puerto Rico', 'Lithuania', 'Namibia', 'Gambia', 'Botswana', 'Gabon', 'Lesotho', 'North Macedonia', 'Slovenia', 'Guinea-Bissau', 'Latvia', 'Bahrain', 'Trinidad and Tobago', 'Estonia', 'Timor-Leste', 'Mauritius', 'Cyprus', 'Eswatini', 'Djibouti', 'Fiji', 'Réunion', 'Comoros', 'Guyana', 'Bhutan', 'Solomon Islands', 'Macau', 'Montenegro', 'Luxembourg', 'Western Sahara', 'Suriname', 'Cabo Verde', 'Maldives', 'Malta', 'Brunei', 'Belize', 'Bahamas', 'Iceland', 'Vanuatu', 'Barbados', 'São Tomé and Príncipe', 'Samoa', 'Saint Lucia', 'Kiribati', 'Grenada', 'Tonga', 'Federated States of Micronesia', 'Saint Vincent and the Grenadines', 'Antigua and Barbuda', 'Andorra', 'Dominica', 'Marshall Islands', 'Saint Kitts and Nevis', 'Monaco', 'Liechtenstein', 'San Marino', 'Palau', 'Tuvalu', 'Nauru'];
 
 
@@ -337,30 +340,47 @@ passport.append('file',value);
         const formresponse = await axios.post(`${REACT_API_URL}/admissions`, formDataToSubmit);
         console.log(formresponse.data)
         if (formresponse) {
-            setLoading(false)
+            setLoading(false);
+            setSuccess(true)
           setShowsnack(true);
           setSnackmsg(formresponse.data.message);
           setSnacktype('success');
         } else {
+            setError(true)
             setShowsnack(true);
             setSnackmsg('Error submitting form contact school');
             setSnacktype('error');
         }
       } else {
+
         setFormErrors(errors);
+       
         setShowsnack(true);
         setSnackmsg('Please fill all necessary fields properly');
         setSnacktype('error');
         window.scrollTo(0, 0);
       }
     } catch (error) {
-        setLoading(false)
+        setLoading(false);
+        setError(true)
       setShowsnack(true);
       setSnackmsg('Something went wrong try submitting again after 2 mins . if the problem still occurs contact school');
       setSnacktype('error');
     }
   };
-
+if(loading){
+    return <CircularProgress sx={{margin:'auto'}}/>
+}
+if(success){
+return   <Alert icon={<Check fontSize="inherit" />} severity="success">
+Here is a gentle confirmation that your admssion  was submitted successfully.
+</Alert>
+}
+if(err){
+    return   <Alert icon={<Check fontSize="inherit" />} severity="error">
+   There is some issue with submission try again in 2 minutes 
+    </Alert>
+    }
   return (
     <Grid component={'form'} onSubmit={handleSubmit} container spacing={2} p={5}>
          <Box
@@ -896,7 +916,7 @@ passport.append('file',value);
 </Grid>
 <Grid item xs={12} sm={6}>
   <Typography my={2} variant="body1">Passport Photo</Typography>
- <Stack component={Paper} variant='outlined' p={1} direction={'row'}>
+ <Stack component={Paper} variant='outlined' p={1} direction={{ xs: 'column', sm: 'row' }}>
  <input
     name='passportPhoto'
     type='file'
@@ -925,7 +945,7 @@ passport.append('file',value);
       </Grid>
 
       <Button sx={{my:2,width:'25%',m:'auto'}} type="submit" disabled={loading} variant="contained" fullWidth>
-       {loading ? <CircularProgress  sx={{m:'auto'}}/> : 'Submit'}
+       Submit
       </Button>
      
 
