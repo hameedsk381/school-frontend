@@ -6,17 +6,18 @@ import {
   Typography,
   Card,
   CardContent,
-  CardActions,
   Button,
   Divider,
 
   CircularProgress,
   
 } from '@mui/material';
-import logo from "../assets/logo2.png";
+
 import { styled } from '@mui/system';
 
 import REACT_API_URL from '../config';
+import { logos } from '../assets';
+import { ArrowBack } from '@mui/icons-material';
 
 const Root = styled(Card)({
   maxWidth: 800,
@@ -34,11 +35,6 @@ const Content = styled(Typography)({
   marginBottom: 2
 });
 
-const Actions = styled(CardActions)({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-});
 
 function Announcement() {
   const [announcement, setAnnouncement] = useState(null);
@@ -64,10 +60,12 @@ function Announcement() {
 
   return (
   <Box sx={{py:4,width:"100vw",height:"100vh",bgcolor:"#2196f3"}} >
+    
   <Root  elevation={4} > 
+  <Button variant='contained' size='small' sx={{m:3}} startIcon={<ArrowBack/>} component={Link} to="/announcements">Back to Announcements</Button>
   <Box
   component="img"
-  src={logo}
+  src={logos.logo2}
   href="/"
   sx={{
     m: 2,
@@ -75,6 +73,7 @@ function Announcement() {
     width: {xs:"5%",md:'8%'},margin:"auto",my:2
   }}
 />
+
     <CardContent>
       <Box display="flex" alignItems="center">
         
@@ -83,10 +82,7 @@ function Announcement() {
       <Divider sx={{my:3}}/>
       <Content variant="body1">{announcement.description}</Content>
     </CardContent>
-    <Actions>
-      <Button component={Link} to="/">Back to Announcements</Button>
     
-    </Actions>
   </Root>
   </Box>
   );

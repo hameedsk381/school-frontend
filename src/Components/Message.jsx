@@ -1,13 +1,10 @@
 import * as React from "react";
 
-
-import principal from "../assets/principal.JPG";
-import correspondent from "../assets/correspondent.jpg";
-
 import Typography from "@mui/material/Typography";
 import { Avatar, Box, Grid, Paper } from "@mui/material";
 import { FormatQuote } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { logos } from "../assets";
 
 export default function Message({ name, message, role, caption }) {
   return (
@@ -26,13 +23,13 @@ export default function Message({ name, message, role, caption }) {
             >
              {role ==="Principal" ? ( <Avatar
               variant="square"
-              src={principal}
+              src={logos.principal}
               alt="principal"
               sx={{ width: "100%", height: "100%" }}
             />):(
               <Avatar
               variant="square"
-              src={correspondent}
+              src={logos.correspondent}
               alt="correspondent"
               sx={{ width: "100%", height: "100%" }}
             />

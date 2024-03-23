@@ -11,11 +11,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import logo from "../assets/logo2.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, CircularProgress } from "@mui/material";
 import { loginUser } from "../actions/userActions";
 import { Link } from "react-router-dom";
+import { logos } from "../assets";
 
 const theme = createTheme();
 
@@ -58,7 +59,7 @@ export default function Login() {
         >
           <Box
             component="img"
-            src={logo}
+            src={logos.logo2}
             href="/"
             sx={{
               m: 2,

@@ -20,8 +20,8 @@ import {
   ShieldMoonOutlined,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo1.png";
 import { useSelector } from "react-redux";
+import { logos } from "../assets";
 const drawerlist1 = [
   { name: "Home", route: "/", icon: <HomeOutlined /> },
   { name: "Academics", route: "/academics", icon: <School /> },
@@ -73,7 +73,7 @@ export default function Drawercomp() {
       <Box
         noWrap
         component="img"
-        src={logo}
+        src={logos.logo1}
         href="/"
         sx={{
           mr: 2,

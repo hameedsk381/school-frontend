@@ -19,11 +19,11 @@ import {
   Typography
 } from '@mui/material';
 import SignatureCanvas from 'react-signature-canvas';
-import avatar from '../assets/avtar.png'
 import REACT_API_URL from '../config';
 import axios from 'axios';
-import logo from "../assets/logo2.png";
+
 import { Check } from '@mui/icons-material';
+import  { logos } from '../assets';
 const AdmForm = () => {
     const initialState = {
         studentName: '',
@@ -62,7 +62,7 @@ const AdmForm = () => {
         remarks: '',
         acceptTerms: false,
         signature: '',
-        passportPhoto: avatar,
+        passportPhoto: 'https://bafkreibcs4dd2xqd5jkx2b7i7sitkpbyqtmqrjbavjxwug56ddiegv2jd4.ipfs.w3s.link/',
       }
   const [formData, setFormData] = useState(initialState);
   const [formErrors, setFormErrors] = useState({});
@@ -122,9 +122,6 @@ const motherTongueOptions = [
       }));
     }
   };
-  const handleSnack = () =>{
-    setShowsnack(true)
-  }
   const validateForm = (data) => {
     const errors = {};
   
@@ -399,7 +396,7 @@ if(err){
     <Grid component={'form'} onSubmit={handleSubmit} container spacing={2} p={5}>
          <Box
             component="img"
-            src={logo}
+            src={logos.logo2}
             href="/"
             sx={{
               m: 'auto',

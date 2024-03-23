@@ -5,7 +5,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { registerUser } from '../actions/userActions';
-import logo from "../assets/logo2.png";
+
+import { logos } from '../assets';
 const Alumniform = () => {
  
   const [father, setfather] = React.useState("");
@@ -57,7 +58,7 @@ const Alumniform = () => {
       <Typography
   
         component="img"
-        src={logo}
+        src={logos.logo2}
         href="/"
         sx={{
           m: 2,

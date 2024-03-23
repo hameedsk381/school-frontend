@@ -11,7 +11,7 @@ export default function Menulist({menu,bg,route}) {
     <Card sx={{ minHeight: '280px' ,margin:"auto",mx:3,my:4,transition:"transform .2s",'&:hover': {transform: "scale(1.1)", boxShadow: 'lg', borderBlock:"3px solid white",mx:3 }}}>
       <CardCover>
         <img
-          src={require(`../assets/IMG_${bg}.JPG`)}
+          src={bg}
         
           loading="lazy"
           alt=""

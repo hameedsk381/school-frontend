@@ -11,7 +11,6 @@ import './Appbar.css'
 import Button from "@mui/material/Button";
 
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../assets/logo1.png";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,7 @@ import { logoutUser } from "../actions/userActions";
 import Drawercomp from "./Drawercomp";
 import AlumniRegistrationModal from "./AlumniRegistrationModal";
 import Marquee from "react-fast-marquee";
+import { logos } from "../assets";
 
 const menu = [
   { name: "Home", route: "/" },
@@ -43,13 +43,12 @@ function Appbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userstate = useSelector((state) => state.loginUserReducer);
+  const {announcements} = useSelector((state) => state.getAllAnnouncements);
   const { currentUser } = userstate;
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = React.useState(false);
 
-  const handleOpenModal = () => {
-      setModalOpen(true);
-  };
+
 
   const handleCloseModal = () => {
       setModalOpen(false);
@@ -80,7 +79,7 @@ function Appbar() {
           <Drawercomp />
           <Box
             component="img"
-            src={logo}
+            src={logos.logo1}
             href="/"
             sx={{
               mr: 2,
@@ -153,7 +152,7 @@ function Appbar() {
             <Link to="/">
               <Box
                 component="img"
-                src={logo}
+                src={logos.logo1}
                 sx={{
                   mr: 3,
                   display: { xs: "flex", md: "none" },
@@ -413,7 +412,7 @@ function Appbar() {
           </Box>
         </Toolbar>
       </Container>
-      <Marquee gradient={false} style={{ backgroundColor: "white", color: "red" }}>
+      <Marquee gradient={false} style={{ backgroundColor: "white", color: "red" ,gap:'30px' }}>
   <span
     style={{
       display: "inline-block",
@@ -433,6 +432,20 @@ function Appbar() {
       click here
     </Link>
   </span>
+  <Stack direction="row" spacing={2}>
+          {announcements && announcements.map((announcement, index) => (
+            <Typography  style={{
+              fontFamily: "sans-serif",
+              fontSize: "small",
+              marginInline: "5px",
+              textDecoration: "underline",
+            }}
+            
+           variant="body1" component={Link} to={`/announcement/${announcement._id}`} key={index}>
+              {announcement.title}
+            </Typography>
+          ))}
+  </Stack>
 </Marquee>
 
     </AppBar>

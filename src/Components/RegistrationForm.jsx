@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/logo2.png";
+
 import {
   Alert,
   Autocomplete,
@@ -24,6 +24,7 @@ import styled from "@emotion/styled";
 import { registerUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { logos } from "../assets";
 
 const departments = [
   { value: "english", label: "English" },
@@ -475,7 +476,7 @@ const RegistrationForm = () => {
         >
           <Box
             component="img"
-            src={logo}
+            src={logos.logo2}
             href="/"
             sx={{
               m: 2,

@@ -2,18 +2,15 @@ import * as React from "react";
 import Box from "@mui/joy/Box";
 import Grid from "@mui/joy/Grid";
 import Typography from "@mui/joy/Typography";
-import determination from '../assets/detrmination.svg'
-import dedication from "../assets/dedication.svg";
-import discipline from "../assets/discipline.svg";
-import devotion from "../assets/devotion.svg";
-import { animate, motion } from "framer-motion";
+import {  motion } from "framer-motion";
+import { logos } from "../assets";
 
 const Values = () => {
   const valuesData = [
-    { title: "Determination", image: determination },
-    { title: "Dedication", image: dedication },
-    { title: "Discipline", image: discipline },
-    { title: "Devotion", image: devotion },
+    { title: "Determination", image: logos.determination },
+    { title: "Dedication", image: logos.dedication },
+    { title: "Discipline", image: logos.discipline },
+    { title: "Devotion", image: logos.devotion },
   ];
 
   return (

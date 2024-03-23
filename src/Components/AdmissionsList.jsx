@@ -10,7 +10,6 @@ import {
   Typography,
   IconButton,
   CircularProgress,
-  Avatar,
   Stack,
   Button,
   Box,
@@ -193,7 +192,7 @@ function AdmissionsList() {
 <TableCell>{admission.remarks}</TableCell>
 <TableCell>{admission.acceptTerms ? 'yes' : 'no'}</TableCell>
 <TableCell><img src={admission.signature} alt="Signature" /></TableCell>
-<TableCell><img src={admission.passportPhoto} alt="Passport Photo" /></TableCell>
+<TableCell><img src={admission.passportPhoto} alt='passport'/></TableCell>
 <TableCell>
                     <IconButton onClick={() => handleDelete(admission._id)}>
                       <DeleteIcon />

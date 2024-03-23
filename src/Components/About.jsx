@@ -1,8 +1,6 @@
 import { FormatQuoteOutlined, Forward } from "@mui/icons-material";
 import {
   Box,
-  Breadcrumbs,
-  Container,
   List,
   ListItem,
   ListItemIcon,
@@ -12,7 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-import logo from "../assets/logo2.png";
+import { logos } from "../assets";
 
 const About = () => {
   return (
@@ -34,7 +32,7 @@ const About = () => {
         </Typography>
         <Box
           component="img"
-          src={logo}
+          src={logos.logo2}
           href="/"
           sx={{
             m: 2,

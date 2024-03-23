@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { FaBars } from 'react-icons/fa';
-import Logo from '../assets/logo2.png';
+import { logos } from '../assets';
 
 const SchoolWebsite = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +24,7 @@ const SchoolWebsite = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <img src={Logo} alt="ChristTheKing School" className="w-10 h-10 mr-2" />
+              <img src={logos.logo2} alt="ChristTheKing School" className="w-10 h-10 mr-2" />
               <h1 className="text-xl font-bold">ChristTheKing School</h1>
             </div>
             <div className="hidden md:block">

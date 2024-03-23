@@ -12,10 +12,10 @@ import {
 
   CircularProgress,
 } from '@mui/material';
-import logo from "../assets/logo2.png";
 import { styled } from '@mui/system';
 
 import REACT_API_URL from '../config';
+import { logos } from '../assets';
 
 const Root = styled(Card)({
   maxWidth: 800,
@@ -66,7 +66,7 @@ function SingleEvent() {
   <Root  elevation={4} > 
   <Box
   component="img"
-  src={logo}
+  src={logos.logo2}
   href="/"
   sx={{
     m: 2,

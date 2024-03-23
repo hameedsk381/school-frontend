@@ -4,9 +4,10 @@ import Button from "@mui/material/Button";
 
 import styled from "@emotion/styled";
 import { Alert, Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select, Stack, Typography } from "@mui/material";
-import logo from "../assets/logo2.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addClubUser, getAllClubUsers } from "../actions/clubActions";
+import { logos } from "../assets";
 
 const useStyles = styled((theme) => ({
   form: {
@@ -76,7 +77,7 @@ if(success){
     <Box
            
             component="img"
-            src={logo}
+            src={logos.logo2}
             href="/"
             sx={{
               m: 2,

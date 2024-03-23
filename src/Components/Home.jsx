@@ -1,10 +1,6 @@
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 
-import banner from "../assets/banner.JPG";
-import Marquee from "react-fast-marquee";
-
 import Message from "./Message";
-import Alumni from "./Alumni";
 import Menulist from "./Menulist";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -13,18 +9,11 @@ import { Parallax } from "react-parallax";
 import Footer from "./Footer";
 
 import Swal from "sweetalert2";
-import Eventscomp from "./Eventscomp";
-import Events from "./EventsPanel";
 import AnnouncementPanel from "./AnnouncementPanel";
 import { Link } from "react-router-dom";
 import { ArrowForward } from "@mui/icons-material";
+import {carouselimages, logos} from "../assets";
 
-const arrayRange = (start, stop, step) =>
-  Array.from(
-    { length: (stop - start) / step + 1 },
-    (value, index) => start + index * step
-  );
-  
 const Home = () => {
   const responsive = {
     superLargeDesktop: {
@@ -71,28 +60,31 @@ const Home = () => {
             ssr={true} // means to render carousel on server-side.
             infinite={true}
             autoPlay={true}
-            autoPlaySpeed={3000}
+            autoPlaySpeed={6000}
             keyBoardControl={true}
             customTransition="all 1s"
             transitionDuration={500}
             containerClass="carousel-container"
             removeArrowOnDeviceType={["tablet", "mobile"]}
             itemClass="carousel-item-padding-80-px"
+            lazyLoad={true} // Improving image loading time
           >
-            {arrayRange(1, 17, 1).map((item, i) => (
+            {carouselimages.map((item, i) => (
               <div className="relative" key={i}>
+                
                 <img
-                  src={require(`../banner/ban${item}.JPG`)}
+                  src={item.response} // Improving image loading time
                   className="max-h-[100vh] object-cover md:h-[60vh] h-[200px] w-[100%]  img-fluid"
-                  alt="logo"
+                  loading="lazy"
                   onClick={() => {
                     Swal.fire({
-                      imageUrl: `${require(`../assets/IMG_${item}.JPG`)}`,
+                      imageUrl: item.response,
                       imageHeight: "50vh",
                       imageWidth: "100vw",
                       imageAlt: "A tall image",
                     });
                   }}
+                 alt="logo"
                 />
               </div>
             ))}
@@ -199,7 +191,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <Parallax blur={3} bgImage={banner} bgImageAlt="banner" strength={300}>
+        <Parallax blur={3} bgImage={logos.banner} bgImageAlt="banner" strength={300}>
           <Box sx={{ height: { xs: 200, md: 350, lg: 500 }, width: "100vw" }}>
             <Stack
               sx={{ width: "100%", height: "100%", justifyContent: "center" }}
@@ -299,13 +291,14 @@ const Home = () => {
         
         
 
+        <Grid container spacing={2}>
         <Grid
           item
           xs={12}
           md={4}
           sx={{ backgroundColor: "#2196f3", borderBlock: "2px solid white" }}
         >
-          <Menulist menu="About" bg={1509} route="about" />
+          <Menulist menu="About" bg={logos.about} route="about" />
         </Grid>
         <Grid
           item
@@ -313,7 +306,7 @@ const Home = () => {
           md={4}
           sx={{ backgroundColor: "#2196f3", borderBlock: "2px solid white" }}
         >
-          <Menulist menu="Faculty" bg={1512} route="faculty" />
+          <Menulist menu="Faculty" bg={logos.faculty} route="faculty" />
         </Grid>
         <Grid
           item
@@ -321,7 +314,8 @@ const Home = () => {
           md={4}
           sx={{ backgroundColor: "#2196f3", borderBlock: "2px solid white" }}
         >
-          <Menulist menu="Gallery" bg={1516} route="gallery" />
+          <Menulist menu="Gallery" bg={logos.gallery} route="gallery" />
+        </Grid>
         </Grid>
       
       <Footer />

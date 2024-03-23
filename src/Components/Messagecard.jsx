@@ -7,8 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Avatar, Breadcrumbs, Container, Grid, Paper } from "@mui/material";
 
 import { Link, useParams } from "react-router-dom";
-import principal from "../assets/principal.JPG";
-import correspondent from "../assets/correspondent.jpg";
+import { logos } from "../assets";
 export default function Messagecard() {
   const { id } = useParams();
 
@@ -34,7 +33,7 @@ export default function Messagecard() {
                
                   <Avatar
                     variant="rounded"
-                    src={principal}
+                    src={logos.principal}
                     alt="principal"
                     sx={{ width: "90%", height: "90%" }}
                   />
@@ -99,7 +98,7 @@ export default function Messagecard() {
                 >
                   <Avatar
                     variant="rounded"
-                    src={correspondent}
+                    src={logos.correspondent}
                     alt="correspondent"
                     sx={{ width: {xs:"100%",md:"120%"}, height: "90%" }}
                   />

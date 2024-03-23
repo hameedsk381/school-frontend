@@ -4,12 +4,9 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { Box, Breadcrumbs, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { carouselimages } from "../assets";
 
-const arrayRange = (start, stop, step) =>
-  Array.from(
-    { length: (stop - start) / step + 1 },
-    (value, index) => start + index * step
-  );
+
 
 function srcset(image, size, rows = 1, cols = 1) {
   return {
@@ -61,14 +58,15 @@ export default function Imagelist() {
         cols={3}
         rowHeight={221}
       >
-        {arrayRange(1455, 1544, 1).map((item, i) => (
+        {carouselimages.map((item, i) => (
           <ImageListItem key={i} cols={item.cols || 1} rows={item.rows || 1}>
             <img
-              {...srcset(require(`../assets/IMG_${item}.JPG`))}
+            loading="lazy"
+              {...srcset(item.response)}
               alt={item.title}
               onClick={() => {
                 Swal.fire({
-                  imageUrl: require(`../assets/IMG_${item}.JPG`),
+                  imageUrl: item.response,
                   imageWidth: 800,
                   imageHeight: 400,
                   imageAlt: "Custom image",
