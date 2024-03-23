@@ -76,7 +76,7 @@ function AdmissionsList() {
       setadmissionData((prevState) =>
         prevState.filter((admission) => admission._id !== id)
       );
-      setLoading(true);
+      setLoading(false);
     } catch (error) {
       console.log(error.message);
       setShowsnack(true)

@@ -936,7 +936,7 @@ if(err){
     type='file'
     accept="image/*"
     onChange={handleChange}
-    max="5000000" // 5 MB in bytes
+    max="10000000" // 5 MB in bytes
   />
   {formData.passportPhoto && formData.passportPhoto instanceof File ? (
       <img style={{width:"200px",height:'180px'}} src={URL.createObjectURL(formData.passportPhoto)} alt="Passport" />
