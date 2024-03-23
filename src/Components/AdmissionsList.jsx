@@ -15,6 +15,7 @@ import {
   Button,
   Box,
   Alert,
+  Snackbar,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
@@ -41,32 +42,46 @@ function AdmissionsList() {
   const [admissionData, setadmissionData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [snack, setShowsnack] = useState(false);
+  const [snackmsg,setSnackmsg] = useState('');
+  const [snacktype,setSnacktype] = useState('info');
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${REACT_API_URL}/admissions`);
+      setShowsnack(true)
+      setSnackmsg('admissions fetched successfully')
+      setSnacktype('success')
+      setadmissionData(response.data);
+    } catch (error) {
+      setError(error.message);
+      setShowsnack(true)
+      setSnackmsg('Error fetching admissions data')
+      setSnacktype('error')
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${REACT_API_URL}/admissions`);
-        setadmissionData(response.data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  
     fetchData();
   }, []);
 
   const handleDelete = async (id) => {
     try {
+      setLoading(true);
       await axios.delete(`${REACT_API_URL}/admissions/${id}`);
+      setShowsnack(true)
+      setSnackmsg('admission deleted successfully')
+      setSnacktype('success')
       setadmissionData((prevState) =>
         prevState.filter((admission) => admission._id !== id)
       );
-      setInterval(() => {
-        window.location.reload();
-      }, 2000);
+      setLoading(true);
     } catch (error) {
       console.log(error.message);
+      setShowsnack(true)
+      setSnackmsg('Error fetching admissions data')
+      setSnacktype('error')
     }
   };
   const handleExportToExcel = () => {
@@ -93,7 +108,7 @@ function AdmissionsList() {
       <Button variant='contained' startIcon={<FileDownload/>} onClick={handleExportToExcel}>Export to excel</Button>
         </Stack>
       <TableContainer component={Paper} className={classes.tableContainer} sx={{my:3}}>
-          <Table className={classes.table} aria-label="admission table">
+          <Table className={classes.table} aria-label="admission table" sx={{ tableLayout: 'auto' }}>
           <TableHead>
   <TableRow>
     <TableCell>Student Name</TableCell>
@@ -185,14 +200,26 @@ function AdmissionsList() {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              )) : <Alert severity='info' sx={{m:2,width:"100%"}}>No registrations yet</Alert>}
+              )) : <Alert severity='info' sx={{m:2,width:"500px"}}>No registrations yet</Alert>}
             </TableBody>
           </Table>
         </TableContainer>
       </Box>
         
       )}
-     
+      <Snackbar  
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }} 
+          open={snack} 
+          autoHideDuration={3000} 
+          onClose={() => setShowsnack(false)}
+        >
+         <Alert  severity={snacktype}>
+         {snackmsg}
+         </Alert>
+       </Snackbar>
     </Paper>
   );
 }

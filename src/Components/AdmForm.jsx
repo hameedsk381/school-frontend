@@ -299,11 +299,12 @@ const motherTongueOptions = [
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    
     try {
       const errors = validateForm(formData);
-
+    
       if (Object.keys(errors).length === 0) {
+        setLoading(true);
         const signatureData = signatureRef.current.getTrimmedCanvas().toDataURL('image/png');
    // Convert data URL to Blob
    fetch(signatureData)
@@ -320,6 +321,9 @@ const motherTongueOptions = [
 const filedata = new FormData();
 filedata.append('file',formData.signature);
     const response = await axios.post('https://reanarration-fastify-api.onrender.com/upload', filedata);
+    if(response){
+      console.log('sign saved')
+    }
     const signatureFiledata = response.data;
         const formDataToSubmit = {};
 
@@ -328,6 +332,9 @@ filedata.append('file',formData.signature);
             const passport = new FormData();
 passport.append('file',value);
     const passresponse = await axios.post('https://reanarration-fastify-api.onrender.com/upload', passport);
+    if(passresponse){
+      console.log('passport photo saved');
+    }
     const passportdata = passresponse.data;
             formDataToSubmit[key] = passportdata;
           } else {
@@ -345,6 +352,7 @@ passport.append('file',value);
           setShowsnack(true);
           setSnackmsg(formresponse.data.message);
           setSnacktype('success');
+          setFormData(initialState);
         } else {
             setError(true)
             setShowsnack(true);
@@ -361,6 +369,7 @@ passport.append('file',value);
         window.scrollTo(0, 0);
       }
     } catch (error) {
+      console.log(error);
         setLoading(false);
         setError(true)
       setShowsnack(true);
@@ -369,18 +378,23 @@ passport.append('file',value);
     }
   };
 if(loading){
-    return <CircularProgress sx={{margin:'auto'}}/>
+    return  <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '9999' }}>
+      <CircularProgress sx={{margin:'auto'}}/>
+      </div>
 }
 if(success){
-return   <Alert icon={<Check fontSize="inherit" />} severity="success">
+return   <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '9999' }}> <Alert icon={<Check fontSize="inherit" />} severity="success" onClose={()=>{setSuccess(false)}}>
 Here is a gentle confirmation that your admssion  was submitted successfully.
 </Alert>
+</div>
 }
 if(err){
-    return   <Alert icon={<Check fontSize="inherit" />} severity="error">
-   There is some issue with submission try again in 2 minutes 
-    </Alert>
-    }
+    return   <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '9999' }}>
+      <Alert icon={<Check fontSize="inherit" />} severity="error" onClose={()=>{setError(false)}}>
+        There is some issue with submission try again in 2 minutes 
+      </Alert>
+    </div>
+}
   return (
     <Grid component={'form'} onSubmit={handleSubmit} container spacing={2} p={5}>
          <Box
@@ -922,6 +936,7 @@ if(err){
     type='file'
     accept="image/*"
     onChange={handleChange}
+    max="5000000" // 5 MB in bytes
   />
   {formData.passportPhoto && formData.passportPhoto instanceof File ? (
       <img style={{width:"200px",height:'180px'}} src={URL.createObjectURL(formData.passportPhoto)} alt="Passport" />
