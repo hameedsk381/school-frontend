@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -68,6 +69,9 @@ const AdmForm = () => {
   const [snackmsg,setSnackmsg] = useState('');
   const [snacktype,setSnacktype] = useState('info');
   const [loading,setLoading] = useState(false)
+  const nationalityOptions = ['India', 'America', 'Canada', 'Australia', 'United Kingdom', 'Germany', 'France', 'Japan', 'China', 'Brazil', 'South Africa', 'Russia', 'Italy', 'Spain', 'Mexico', 'Argentina', 'Nigeria', 'Indonesia', 'Pakistan', 'Bangladesh', 'Philippines', 'Vietnam', 'Turkey', 'Iran', 'Thailand', 'Myanmar', 'South Korea', 'Kenya', 'Colombia', 'Spain', 'Ukraine', 'Tanzania', 'Argentina', 'Algeria', 'Uganda', 'Sudan', 'Iraq', 'Poland', 'Canada', 'Morocco', 'Afghanistan', 'Saudi Arabia', 'Peru', 'Venezuela', 'Malaysia', 'Uzbekistan', 'Mozambique', 'Ghana', 'Yemen', 'Nepal', 'Venezuela', 'Madagascar', 'Cameroon', 'Côte dIvoire', 'North Korea', 'Australia', 'Niger', 'Taiwan', 'Sri Lanka', 'Burkina Faso', 'Mali', 'Romania', 'Malawi', 'Chile', 'Kazakhstan', 'Zambia', 'Guatemala', 'Ecuador', 'Syria', 'Netherlands', 'Senegal', 'Cambodia', 'Chad', 'Somalia', 'Zimbabwe', 'Guinea', 'Rwanda', 'Benin', 'Burundi', 'Tunisia', 'Bolivia', 'Belgium', 'Haiti', 'Cuba', 'South Sudan', 'Dominican Republic', 'Czech Republic', 'Greece', 'Jordan', 'Portugal', 'Azerbaijan', 'Sweden', 'Honduras', 'United Arab Emirates', 'Hungary', 'Tajikistan', 'Belarus', 'Austria', 'Papua New Guinea', 'Serbia', 'Israel', 'Switzerland', 'Togo', 'Sierra Leone', 'Hong Kong', 'Laos', 'Paraguay', 'Bulgaria', 'Libya', 'Lebanon', 'Nicaragua', 'Kyrgyzstan', 'El Salvador', 'Turkmenistan', 'Singapore', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Oman', 'State of Palestine', 'Costa Rica', 'Liberia', 'Ireland', 'Central African Republic', 'New Zealand', 'Mauritania', 'Panama', 'Kuwait', 'Croatia', 'Moldova', 'Georgia', 'Eritrea', 'Uruguay', 'Bosnia and Herzegovina', 'Mongolia', 'Armenia', 'Jamaica', 'Qatar', 'Albania', 'Puerto Rico', 'Lithuania', 'Namibia', 'Gambia', 'Botswana', 'Gabon', 'Lesotho', 'North Macedonia', 'Slovenia', 'Guinea-Bissau', 'Latvia', 'Bahrain', 'Trinidad and Tobago', 'Estonia', 'Timor-Leste', 'Mauritius', 'Cyprus', 'Eswatini', 'Djibouti', 'Fiji', 'Réunion', 'Comoros', 'Guyana', 'Bhutan', 'Solomon Islands', 'Macau', 'Montenegro', 'Luxembourg', 'Western Sahara', 'Suriname', 'Cabo Verde', 'Maldives', 'Malta', 'Brunei', 'Belize', 'Bahamas', 'Iceland', 'Vanuatu', 'Barbados', 'São Tomé and Príncipe', 'Samoa', 'Saint Lucia', 'Kiribati', 'Grenada', 'Tonga', 'Federated States of Micronesia', 'Saint Vincent and the Grenadines', 'Antigua and Barbuda', 'Andorra', 'Dominica', 'Marshall Islands', 'Saint Kitts and Nevis', 'Monaco', 'Liechtenstein', 'San Marino', 'Palau', 'Tuvalu', 'Nauru'];
+
+
 
   // Mother Tongue options (South Indian languages)
 const motherTongueOptions = [
@@ -93,7 +97,6 @@ const motherTongueOptions = [
   ];
   const classOptions = ['LKG','UKG',1,2,3,4,5,6,7,8,9,10]
   // Nationality options
-  const nationalityOptions = ['India', 'America'];
   
   // Caste options
   const casteOptions = ['OC', 'BC', 'SC', 'ST'];
@@ -309,7 +312,6 @@ const motherTongueOptions = [
         signature: signfile
       }));
      // Now you have the File object, you can use it as needed
-     console.log('File object:', signfile);
    });
 const filedata = new FormData();
 filedata.append('file',formData.signature);
@@ -330,10 +332,11 @@ passport.append('file',value);
         }
 
         formDataToSubmit.signature = signatureFiledata;
-console.log(formDataToSubmit);
+
         const formresponse = await axios.post(`${REACT_API_URL}/admissions`, formDataToSubmit);
         console.log(formresponse.data)
         if (formresponse) {
+            setLoading(false)
           setShowsnack(true);
           setSnackmsg(formresponse.data.message);
           setSnacktype('success');
@@ -350,6 +353,7 @@ console.log(formDataToSubmit);
         window.scrollTo(0, 0);
       }
     } catch (error) {
+        setLoading(false)
       setShowsnack(true);
       setSnackmsg(error.message);
       setSnacktype('error');
@@ -776,27 +780,43 @@ console.log(formDataToSubmit);
       </Grid>
 
       <Grid item xs={12} sm={3}>
-        <TextField 
-          size="small"
-          name="firstLanguage"
-          label="First Language Opted"
-          value={formData.firstLanguage}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>First Language Opted</InputLabel>
+          <Select
+            size="small"
+            name="firstLanguage"
+            value={formData.firstLanguage}
+            onChange={handleChange}
+            fullWidth
+          >
+            <MenuItem value="">Select Language</MenuItem>
+            {motherTongueOptions.map((language) => (
+              <MenuItem key={language} value={language}>
+                {language}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
 
       <Grid item xs={12} sm={3}>
-        <TextField 
-          size="small"
-          name="secondLanguage"
-          label="Second Language Opted"
-          value={formData.secondLanguage}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+      <FormControl fullWidth margin="normal">
+          <InputLabel>Second Language Opted</InputLabel>
+          <Select
+            size="small"
+            name="secondLanguage"
+            value={formData.secondLanguage}
+            onChange={handleChange}
+            fullWidth
+          >
+            <MenuItem value="">Select Language</MenuItem>
+            {motherTongueOptions.map((language) => (
+              <MenuItem key={language} value={language}>
+                {language}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
 
       <Grid item xs={12} sm={3}>
@@ -894,28 +914,12 @@ console.log(formDataToSubmit);
         />
       </Grid>
 
-      <Button sx={{my:2,width:'25%',m:'auto'}} type="submit" variant="contained" fullWidth>
-        Submit
+      <Button sx={{my:2,width:'25%',m:'auto'}} type="submit" disabled={loading} variant="contained" fullWidth>
+       {loading ? <CircularProgress  sx={{m:'auto'}}/> : 'Submit'}
       </Button>
      
 
-{/* <Snackbar  anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }} open={showSuccessAlert} autoHideDuration={3000} onClose={()=>{setShowSuccessAlert(false)}}>
-         <Alert  severity="success">
-           Form submitted successfully!
-         </Alert>
-       </Snackbar>
-      
-      <Snackbar  anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }} open={showErrorAlert} autoHideDuration={3000} onClose={()=>{setShowErrorAlert(false)}}>
-         <Alert  severity="error">
-         Please fill all necessary fields properly
-         </Alert>
-       </Snackbar> */}
+
        <Snackbar  
           anchorOrigin={{
             vertical: 'top',
