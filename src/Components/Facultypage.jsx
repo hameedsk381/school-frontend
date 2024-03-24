@@ -9,7 +9,7 @@ const Facultypage = ({ dept }) => {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
 
-  const fetchUsers = async () => {
+  const fetchUsers =  async() => {
     try {
       setLoading(true);
       const res = await axios.get(`${REACT_API_URL}/users/${dept}`);
@@ -32,24 +32,32 @@ const Facultypage = ({ dept }) => {
   const memoizedDepusers = useMemo(() => depusers, [depusers]);
 
   if (depusers.length === 0) {
-    return <CircularProgress />;
+    return <div style={{display:'flex'}}>
+    <CircularProgress  sx={{m:'auto'}}/>
+  </div>;
   }
 
   if (loading) {
-    return <CircularProgress sx={{ m: "50%" }} />;
+    return (
+      
+       <div style={{display:'flex'}}>
+         <CircularProgress  sx={{m:'auto'}}/>
+       </div>
+     
+    );
   }
 
   if (err) {
     return (
-      <Alert severity="error">This is an error alert — check it out!</Alert>
+      <Alert sx={{m:'auto'}} severity="error">This is an error alert — check it out!</Alert>
     );
   }
 
   return (
     <Container>
-      <Grid container spacing={2} sx={{ p: 3 }}>
+      <Grid container spacing={8} sx={{ p: 3 }}>
         {memoizedDepusers.map((teacher, i) => (
-          <Grid item xs={12} lg={3} sx={{ p: 4 }} key={i}>
+          <Grid item xs={12} lg={3} sx={{ p: 4 ,mx:2}}  key={i}>
             <Profilecard data={teacher} />
           </Grid>
         ))}

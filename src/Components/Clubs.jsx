@@ -59,13 +59,9 @@ const Clubs = () => {
       
     }, [dispatch])
     if(loading){
-      return  <CircularProgress sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '400px',
-        margin:"50%"
-      }} /> ;
+      return  <div style={{ display: 'flex', justifyContent: 'center',marginTop:"20%" }}>
+        <CircularProgress />
+      </div>;
     }
     if(error){
 return <Alert severity="error" sx={{

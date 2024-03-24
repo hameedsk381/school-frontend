@@ -45,37 +45,11 @@ function TabPanel(props) {
 
 const Faculty = () => {
     const [value, setValue] = useState(0);
-
-  //  const dispatch = useDispatch()
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
    
-    // const departments = useSelector(state => state.getAllClubUsersReducer)
-    // const {users,loading,error} = departments;
-  //   useEffect(() => {
-  // dispatch(getAllClubUsers())
-    
-      
-  //   }, [dispatch])
-//     if(loading){
-//       return  <CircularProgress sx={{
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         height: '400px',
-//         margin:"50%"
-//       }} /> ;
-//     }
-//     if(error){
-// return <Alert severity="error" sx={{
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   height: '400px',
-//   color: 'red'
-// }}><Typography variant='h6'>{error}</Typography></Alert>
-//     }
+
   return (
     <React.Fragment>
 

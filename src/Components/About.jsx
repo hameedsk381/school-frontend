@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -16,7 +17,19 @@ const About = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
-        <Typography
+      <Box
+          component="img"
+          src={logos.logo2}
+          href="/"
+          sx={{
+            m: 2,
+            display: { xs: "none", md: "flex" },
+            width: "5%",
+            margin: "auto",
+            my: 2,
+          }}
+        />
+        {/* <Typography
           variant="h4"
           textAlign={"center"}
           sx={{ display: { xs: "none", md: "flex" }, marginLeft: "35%" }}
@@ -29,20 +42,7 @@ const About = () => {
           sx={{ display: { xs: "flex", md: "none" }, marginLeft: "10%" }}
         >
           HISTORY OF THE SCHOOL
-        </Typography>
-        <Box
-          component="img"
-          src={logos.logo2}
-          href="/"
-          sx={{
-            m: 2,
-            display: { xs: "none", md: "flex" },
-            width: "5%",
-            margin: "auto",
-            my: 2,
-          }}
-        />
-
+        </Typography> */}
         <Stack direction={"row"} justifyContent="center" spacing={2} p={2}>
           <FormatQuoteOutlined color="info" />
           <Typography
@@ -56,6 +56,9 @@ const About = () => {
           </Typography>
           <FormatQuoteOutlined color="info" />
         </Stack>
+       
+
+       
 
         <Typography
           component={"p"}
@@ -110,7 +113,7 @@ const About = () => {
         >
           Aims & Objectives of christ the king
         </Typography>
-        <List sx={{ placeItems: "center", p: 4 }}>
+        <List component={Paper} variant="outlined" sx={{ placeItems: "center", p: 4,my:4 }}>
           <ListItem>
             <ListItemIcon>
               <Forward color="info" />
@@ -181,7 +184,7 @@ const About = () => {
         >
           THE SCHOOL EMBLEM AND MOTO
         </Typography>
-        <Stack spacing={1} p={4}>
+        <Stack spacing={1} p={4} component={Paper} variant="outlined" my={4}>
           <Typography align="justify">
             The School emblem consists of Sacred Heart and the crown with the
             cross is designed with the School motto "Reach out in Love"

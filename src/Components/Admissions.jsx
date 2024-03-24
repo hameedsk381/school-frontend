@@ -1,7 +1,8 @@
-import { ArrowForward, Forward } from '@mui/icons-material'
-import { Box, Breadcrumbs, Button, Container, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
+import {  Forward } from '@mui/icons-material'
+import {  Breadcrumbs,  Container, List, ListItem, ListItemIcon, ListItemText,  Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import AdmissionsPage from './AdmissionsPage';
 
 
 
@@ -33,12 +34,7 @@ const Admissions = () => {
 
       <div className="bg-white max-h-screen font-sans">
         <div className="container mx-auto pb-12">
-         <Stack justifyContent={'space-between'} direction={'row'} my={3}>
-         <Typography  variant="h4" className="text-center mb-8 text-[#2563eb]">
-            Admissions Open 
-          </Typography>
-         <Button variant='contained' endIcon={<ArrowForward/>}>  <Link to='/admissionform'>Register here</Link></Button>
-         </Stack>
+          <AdmissionsPage/>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-gray-100 p-8 rounded-lg">
               <Typography variant="h5" className="mb-4 text-[#2563eb]">

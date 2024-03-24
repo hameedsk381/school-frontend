@@ -1,11 +1,13 @@
 import { Container, Box, Typography, Button } from "@mui/material";
 
-import admissionBgImage from "../assets/IMG_1516.JPG";
 import styled from "@emotion/styled";
+import { logos } from "../assets";
+import { Link } from "react-router-dom";
+import { ArrowForward } from "@mui/icons-material";
 
 const useStyles = styled((theme) => ({
   root: {
-    backgroundImage: `url(${admissionBgImage})`,
+    backgroundImage: logos.admissionBg,
     backgroundSize: "cover",
     backgroundPosition: "center",
     height: "100vh",
@@ -30,17 +32,17 @@ const AdmissionsPage = () => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.root}>
-      <Container maxWidth="md" className={classes.content}>
+    <Box sx={{my:4,p:3}} className={classes.root}>
+      <Container maxWidth="md" className={classes.content} sx={{display:'flex',flexDirection:'column'}}>
         <Typography variant="h4" component="h1" gutterBottom>
           Admissions for 2023-24 academic year are now open!
         </Typography>
-        <Typography variant="body1" gutterBottom>
+        <Typography variant="body1" gutterBottom sx={{mb:4}}>
           Apply now to join our diverse community of learners and discover your
           passion for learning.
         </Typography>
-        <Button variant="contained" color="primary" size="large">
-          Apply Now
+        <Button  variant="contained" color="primary" size="medium" sx={{m:'auto'}} endIcon={<ArrowForward/>}>
+          <Link to='/admissionform'>Register here</Link>
         </Button>
       </Container>
     </Box>

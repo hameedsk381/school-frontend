@@ -3,28 +3,25 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
-  Button,
   List,
   ListItem,
   ListItemText,
   Typography,
-  Divider,
-  IconButton,
   ListItemIcon,
+  CircularProgress,
+  Box,
 } from '@mui/material';
-import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
-import { CampaignOutlined, More, Visibility } from '@mui/icons-material';
+import { CampaignOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAnnouncements } from '../actions/announcementActions';
 import { Link } from 'react-router-dom';
 
 const AnnouncementPanel = () => {
-    const {announcements} = useSelector((state) => state.getAllAnnouncements);
+    const {announcements,loading} = useSelector((state) => state.getAllAnnouncements);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAnnouncements())
-       }, [])
+        dispatch(getAnnouncements());
+       }, [dispatch])
        
   return (
     <Card elevation={0} sx={{height:300}}>
@@ -37,7 +34,9 @@ const AnnouncementPanel = () => {
       }}
        />
       <CardContent sx={{ height: 280, overflow: 'auto' }}>
-      <List disablePadding component={'ul'}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        {loading ? <CircularProgress sx={{mt:"30%"}}/> : <List disablePadding component={'ul'}>
+    
           {announcements && announcements.map((announcement, index) => (
            
                
@@ -55,7 +54,8 @@ const AnnouncementPanel = () => {
               
             
           ))}
-          </List>
+          </List>}
+          </Box>
       </CardContent>
       
 

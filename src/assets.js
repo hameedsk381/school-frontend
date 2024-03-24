@@ -474,6 +474,8 @@ export const carouselimages = [
     "discipline": "https://bafkreidc5ts4cpzyc3nkeg6tug2pb7y5kawczwrc6q5nqngonzrmwlqe7u.ipfs.w3s.link/",
     "devotion": "https://bafkreifl7lv6qxwlkcac4nn7qijghcy2buisdbkj4x4iqtwhfluimjp2by.ipfs.w3s.link/",
     "dedication": "https://bafkreicrna7b6jubcqpcjf7nm7vrngdjxh66qp6dbn5isjvbdsnw255cd4.ipfs.w3s.link/",
+    "admissionBg": "https://bafybeigwkaekeem5b7xakjkijgd6wniovwwzqwffaqbxcx37h26dzrptba.ipfs.w3s.link/"
+    
   }
     
   
