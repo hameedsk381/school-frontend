@@ -38,6 +38,7 @@ const [load,setLoad] = useState(false)
     .catch(error => {
         console.error('Error fetching classes:', error);
         setSnackbarMessage('Failed to fetch classes');
+        console.log(error)
         setIsError(true);
         setOpenSnackbar(true);
     });
