@@ -1,30 +1,28 @@
 import {
   Alert,
   Box,
-  Breadcrumbs,
   Button,
   CircularProgress,
   Container,
   Grid,
   Paper,
   Stack,
+  Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-
 import ListItemText from "@mui/material/ListItemText";
-
-import Typography from "@mui/material/Typography";
-
 import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 const User = () => {
-  const loginstate = useSelector((state) => state.loginUserReducer);
-  const { loading, error, currentUser } = loginstate;
+  const loginState = useSelector((state) => state.loginUserReducer);
+  const { loading, error, currentUser } = loginState;
+
   const user = {
     name: currentUser.name,
     email: currentUser.email,
@@ -32,14 +30,12 @@ const User = () => {
     regId: currentUser.regId,
     profilePicture: currentUser.profilePicture,
     isAdmin: currentUser.isAdmin,
-    currentlyTeaching: currentUser.classesTeaching.map(cls => cls.name).join(', '),
-    actingClassTeacherFor: currentUser.actingClassTeacherFor,
-    contact: currentUser.contact,
-    additionalTeachingClasses: currentUser.additionalTeachingClasses,
-    additionalTeachingDepartments: currentUser.additionalTeachingDepartments,
-    languages: currentUser.languages,
-    expertise: currentUser.expertise,
+    expertise: currentUser.expertise.join(', '),
     qualifications: currentUser.qualifications,
+    contact: currentUser.contact,
+    languages: currentUser.languages.join(', '),
+    classesTeaching: currentUser.classesTeaching.map(cls => cls.name).join(', '),
+    additionalClassesTeaching: currentUser.additionalclassesTeaching.map(cls => cls.name).join(', ')
   };
 
   return (
@@ -56,23 +52,12 @@ const User = () => {
 
         <Paper sx={{ p: 2, my: 2 }} elevation={2}>
           <Box>
-            <Box
-              sx={{
-                width: "100%",
-                height: { xs: 100, lg: 150 },
-
-                opacity: 0.8,
-                background:
-                  "linear-gradient(to right, #2196f3 ,#2196f3, #2196f3)",
-              }}
-            />
             <Avatar
-              src={`data:image/jpeg;base64,${user.profilePicture}`}
+              src={user.profilePicture}
               onClick={() => {
                 Swal.fire({
-                  title: `${user.name}`,
-
-                  imageUrl: `data:image/jpeg;base64,${user.profilePicture}`,
+                  title: user.name,
+                  imageUrl: user.profilePicture,
                   imageWidth: 400,
                   imageHeight: 200,
                   imageAlt: "Custom image",
@@ -81,7 +66,6 @@ const User = () => {
               sx={{
                 my: { xs: -6, lg: -10 },
                 margin: "auto",
-
                 width: { lg: 120, xs: 100 },
                 height: { lg: 120, xs: 100 },
                 border: "5px solid white",
@@ -98,7 +82,8 @@ const User = () => {
               <Typography
                 sx={{
                   fontWeight: "bold",
-                  fontSize: { xs: 17, lg: 25, textTransform: "capitalize" },
+                  fontSize: { xs: 17, lg: 25 },
+                  textTransform: "capitalize",
                 }}
               >
                 {user.name}
@@ -139,12 +124,6 @@ const User = () => {
                 <Grid item xs={12} sm={6}>
                   <ListItem>
                     <ListItemText
-                      primary="Acting Class Teacher For"
-                      secondary={user.actingClassTeacherFor}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
                       primary="Expertise"
                       secondary={user.expertise}
                     />
@@ -152,16 +131,15 @@ const User = () => {
                   <ListItem>
                     <ListItemText
                       primary="Currently Teaching"
-                      secondary={user.currentlyTeaching}
+                      secondary={user.classesTeaching}
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
-                      primary="Additional Teaching Departments"
-                      secondary={user.additionalTeachingDepartments}
+                      primary="Additional Teaching Classes"
+                      secondary={user.additionalClassesTeaching}
                     />
                   </ListItem>
-
                   <ListItem>
                     <ListItemText
                       primary="Languages"

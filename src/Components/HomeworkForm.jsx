@@ -20,7 +20,7 @@ import Login from "./Login";
 
 const HomeworkForm = () => {
 
-    const idd = useId();
+  
   const [homework, setHomework] = useState({
     description: "",
     note: "",
@@ -68,8 +68,7 @@ const HomeworkForm = () => {
  if(currentUser==null){
     return <Login/>
  }
- const currentteachingclasses = currentUser.currentlyTeaching[0].split(",").concat(currentUser.additionalTeachingClasses[0].split(","))
- const currentteachingdepartments = [currentUser.department].concat(currentUser.additionalTeachingDepartments[0].split(","))
+ const currentteachingclasses = currentUser.classesTeaching.concat(currentUser.additionalclassesTeaching)
  return (
     <Card sx={{width:{xs:"80%",md:"50%",lg:"35%"},margin:"auto",marginBlock:6}}>
       <CardContent component={Stack} spacing={3}>
@@ -94,19 +93,6 @@ const HomeworkForm = () => {
             margin="normal"
           />
           <FormControl size="small" fullWidth margin="normal">
-            <InputLabel>Choose subject</InputLabel>
-            <Select
-              name="subject"
-              value={homework.subject}
-              onChange={handleChange}
-              label="subject"
-            >
-             {currentteachingdepartments.map((item)=>(
-                <MenuItem key={idd} sx={{textTransform:"capitalize"}} value={item}>{item}</MenuItem>
-             ))}
-            </Select>
-          </FormControl>
-          <FormControl size="small" fullWidth margin="normal">
             <InputLabel>Choose class</InputLabel>
             <Select
               name="class"
@@ -114,8 +100,8 @@ const HomeworkForm = () => {
               onChange={handleChange}
               label="Classes Teaching"
             >
-             {currentteachingclasses.map((item)=>(
-                <MenuItem key={idd} value={item}>{item}</MenuItem>
+             {currentteachingclasses.map((item,i)=>(
+                <MenuItem key={i} value={item._id}>{item.name}</MenuItem>
              ))}
             </Select>
           </FormControl>
