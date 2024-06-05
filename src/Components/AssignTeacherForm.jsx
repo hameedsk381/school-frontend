@@ -26,7 +26,7 @@ function AssignTeacherForm() {
   
     // Fetch classes
     useEffect(() => {
-      axios.get('http://localhost:5000/api/classes').then(response => {
+      axios.get(`http://localhost:5000/api/classes`).then(response => {
         setClasses(response.data);
         console.log(response.data)
       }).catch(error => console.error('Error fetching classes:', error));
@@ -34,7 +34,7 @@ function AssignTeacherForm() {
   
     // Fetch teachers
     useEffect(() => {
-      axios.get('http://localhost:5000/management').then(response => {
+      axios.get(`${REACT_API_URL}/management`).then(response => {
         setTeachers(response.data);
       }).catch(error => console.error('Error fetching teachers:', error));
     }, []);
