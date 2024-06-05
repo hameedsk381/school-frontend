@@ -116,7 +116,7 @@ const finalData = { ...teacherData, languages: languages.join(','),classesTeachi
 
   try {
    
-   const response =    await axios.post('http://localhost:5000/management/register', finalData);
+   const response =    await axios.post(`${REACT_API_URL}/management/register`, finalData);
    console.log(response.data)
       console.log(finalData)
       setSnackbarMessage('Registration successful!');
