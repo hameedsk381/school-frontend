@@ -27,7 +27,7 @@ const Facultycard = () => {
   const profile = async () => {
     const res = await axios.get(`${REACT_API_URL}/users/getuser/${id}`);
     setUser(res.data);
- 
+ console.log(res.data)
   };
   const profiledata = {
   

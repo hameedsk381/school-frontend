@@ -14,10 +14,10 @@ export const registerUser = (user) => async (dispatch) => {
 export const loginUser = (user) => async (dispatch) => {
   dispatch({ type: "USER_LOGIN_REQUEST" });
   try {
-    const res = await axios.post(`${REACT_API_URL}/users/login`, user);
-    dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+    const res = await axios.post(`${REACT_API_URL}/management/login`, user);
+    dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data.teacher });
     
-    localStorage.setItem("currentUser", JSON.stringify(res.data));
+    localStorage.setItem("currentUser", JSON.stringify(res.data.teacher));
     
     window.location.href = "/";
   } catch (err) {

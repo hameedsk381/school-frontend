@@ -44,6 +44,7 @@
     "react-material-ui-carousel": "^3.4.2",
     "react-multi-carousel": "^2.8.3",
     "react-parallax": "^3.5.1",
+    "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.9.0",
@@ -63,6 +64,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

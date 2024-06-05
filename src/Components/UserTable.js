@@ -103,7 +103,7 @@ const UserTable = () => {
     },
   ];
 
-  const rows = users.map((user) => ({
+  const rows = users &&  users.map((user) => ({
     id: user._id,
     name: user.name,
     email: user.email,
@@ -111,7 +111,7 @@ const UserTable = () => {
     department: user.department,
     expertise:user.expertise,
     CurrentlyTeaching:user.currentlyTeaching
-  }));
+  })) || [];
 
   if (loading) {
     return <CircularProgress />;

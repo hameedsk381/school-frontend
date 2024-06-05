@@ -42,6 +42,8 @@ import AnnouncementPanel from "./Components/AnnouncementPanel";
 import EventsPanel from "./Components/EventsPanel";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdmForm from "./Components/AdmForm";
+import ExamForm from "./Components/ExamForm";
+import SearchResults from "./Components/SearchResults";
 
 const queryClient = new QueryClient();
 
@@ -96,7 +98,8 @@ function App() {
         <Route path="/announcements" element={<AnnouncementPanel />} exact />
         <Route path="/events" element={<EventsPanel />} exact />
         <Route path="/admissionform" element={<AdmForm />} exact />
-        
+        <Route path="/examform" element={<ExamForm />} exact />
+        <Route path="/result" element={<SearchResults />} exact />
       </Routes>
         </Box>
       </QueryClientProvider>

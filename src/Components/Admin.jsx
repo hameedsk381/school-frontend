@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Eventspage from "./Eventspage.jsx";
 import AdmissionsList from "./AdmissionsList.jsx";
+import AssignTeacherForm from "./AssignTeacherForm.jsx";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -89,6 +90,7 @@ const Admin = () => {
                 <Tab label="Announcements" {...a11yProps(4)} />
                 <Tab label="Events" {...a11yProps(5)} />
                 <Tab label="Admissions" {...a11yProps(6)} />
+                <Tab label="AssignClassTeacher" {...a11yProps(7)} />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0} >
@@ -111,6 +113,9 @@ const Admin = () => {
                </TabPanel>
                <TabPanel value={value} index={6} >
             <AdmissionsList/>
+               </TabPanel>
+               <TabPanel value={value} index={7} >
+            <AssignTeacherForm/>
                </TabPanel>
           </Box>
          

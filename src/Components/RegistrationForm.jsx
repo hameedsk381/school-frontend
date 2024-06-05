@@ -1,824 +1,401 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { TextField, Button, Box, Typography, Snackbar, Alert, FormControl, InputLabel, Select, MenuItem, OutlinedInput, Chip, Input, IconButton, Container, Grid, Paper, Stack, CircularProgress } from '@mui/material';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { Close, CloseOutlined } from '@mui/icons-material';
+import REACT_API_URL from '../config';
+const predefinedLanguages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
+const predefinedDepartments = ["english", "play school", "science", "telugu", "hindi", "physical education", "mathematics", "office", "computer", "non-teaching"]
+function RegistrationForm() {
+    const [teacherData, setTeacherData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        regId: '',
+        department: '',
+        contact: '',
+        qualifications: ''
+    });
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [allClasses, setAllClasses] = useState([]); // Stores all fetched classes
+const [selectedClasses, setSelectedClasses] = useState([]); // Stores the selected class IDs
 
-import {
-  Alert,
-  Autocomplete,
-  Box,
-  Button,
-  Checkbox,
-  CircularProgress,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-} from "@mui/material";
-
-import { Typography } from "@mui/material";
-import styled from "@emotion/styled";
-import { registerUser } from "../actions/userActions";
-import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import { logos } from "../assets";
-
-const departments = [
-  { value: "english", label: "English" },
-  { value: "play school", label: "Play School" },
-  { value: "science", label: "Science" },
-  { value: "telugu", label: "Telugu" },
-  { value: "hindi", label: "Hindi" },
-  { value: "physical education", label: "Physical education" },
-  { value: "mathematics", label: "Mathematics" },
-  { value: "office", label: "Office" },
-  { value: "computer", label: "Computer" },
-  { value: "non-teaching", label: "Non-teaching" },
-];
-const actingClassTeacherFor = [
-  "Not a class teacher",
-  "Play school",
-  "Non-teaching",
-  "LKG-A",
-  "LKG-B",
-  "LKG-C",
-  "UKG-A",
-  "UKG-B",
-  "UKG-C",
-  "I-A",
-  "I-B",
-  "I-C",
-  "II-A",
-  "II-B",
-  "II-C",
-  "III-A",
-  "III-B",
-  "III-C",
-  "IV-A",
-  "IV-B",
-  "IV-C",
-  "V-A",
-  "V-B",
-  "V-C",
-  "VI-A",
-  "VI-B",
-  "VI-C",
-  "VII-A",
-  "VII-B",
-  "VII-C",
-  "VIII-A",
-  "VIII-B",
-  "VIII-C",
-  "IX-A",
-  "IX-B",
-  "IX-C",
-  "X-A",
-  "X-B",
-  "X-C",
-];
-
-const additionalTeachingclasses = [
-  "All",
-  "Office staff",
-  "Play school",
-  "Non-teaching",
-  "LKG-A",
-  "LKG-B",
-  "LKG-C",
-  "UKG-A",
-  "UKG-B",
-  "UKG-C",
-  "I-A",
-  "I-B",
-  "I-C",
-  "II-A",
-  "II-B",
-  "II-C",
-  "III-A",
-  "III-B",
-  "III-C",
-  "IV-A",
-  "IV-B",
-  "IV-C",
-  "V-A",
-  "V-B",
-  "V-C",
-  "VI-A",
-  "VI-B",
-  "VI-C",
-  "VII-A",
-  "VII-B",
-  "VII-C",
-  "VIII-A",
-  "VIII-B",
-  "VIII-C",
-  "IX-A",
-  "IX-B",
-  "IX-C",
-  "X-A",
-  "X-B",
-  "X-C",
-];
-
-const additionalteachingdepts = [
-  "Not teaching",
-  "Social",
-  "Cultural",
-  "Computer",
-  "Literature",
-  "Language",
-  "Administrative",
-  "Office",
-  "Librarian",
-  "Moral values",
-  "Craft",
-  "Mathematics",
-  "English",
-  "G. K",
-  "Moral Science",
-  "Drawing",
-  "Singer",
-  "Science",
-  "Hindi",
-  "Telugu",
-  "EVS",
-  "Dancer",
-  "Catechism",
-];
-const languages = [
-  "Assamese",
-  "Bengali",
-  "Bodo",
-  "Dogri",
-  "English",
-  "French",
-  "German",
-  "Gujarati",
-  "Hindi",
-  "Italian",
-  "Japanese",
-  "Kannada",
-  "Kashmiri",
-  "Konkani",
-  "Maithili",
-  "Malayalam",
-  "Manipuri",
-  "Marathi",
-  "Nepali",
-  "Odia",
-  "Portuguese",
-  "Punjabi",
-  "Russian",
-  "Sanskrit",
-  "Santali",
-  "Sindhi",
-  "Spanish",
-  "Tamil",
-  "Telugu",
-  "Urdu",
-  "Chinese (Mandarin)",
-  "Arabic",
-  "Dutch",
-  "Korean",
-  "Persian (Farsi)",
-  "Swahili",
-  "Turkish",
-  "Thai",
-  "Vietnamese",
-];
-
-const expertiseOptions = [
-  "OTHER",
-  "LANGUAGE AND LITERATURE",
-  "LANGUAGE TEACHING",
-  "GENERAL SCIENCE",
-  "BASIC SOCIAL STUDIES",
-  "SPORTS",
-  "GENERAL MATHEMATICS",
-  "FACULTY OF EDUCATION",
-  "COMPUTER SCIENCES",
-  "TEACHING",
-  "TELUGU",
-];
-
-const currentlyTeachingClasses = [
-  "Play school",
-  "Non-teaching",
-  "LKG-A",
-  "LKG-B",
-  "LKG-C",
-  "UKG-A",
-  "UKG-B",
-  "UKG-C",
-  "I-A",
-  "I-B",
-  "I-C",
-  "II-A",
-  "II-B",
-  "II-C",
-  "III-A",
-  "III-B",
-  "III-C",
-  "IV-A",
-  "IV-B",
-  "IV-C",
-  "V-A",
-  "V-B",
-  "V-C",
-  "VI-A",
-  "VI-B",
-  "VI-C",
-  "VII-A",
-  "VII-B",
-  "VII-C",
-  "VIII-A",
-  "VIII-B",
-  "VIII-C",
-  "IX-A",
-  "IX-B",
-  "IX-C",
-  "X-A",
-  "X-B",
-  "X-C",
-];
-
-const useStyles = styled((theme) => ({
-  formControl: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-  },
-  fileInput: {
-    display: "none",
-  },
-  previewImg: {
-    display: "block",
-    marginTop: theme.spacing(2),
-    maxWidth: "100%",
-    maxHeight: "200px",
-  },
-}));
-
-const RegistrationForm = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const initialstate = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    qualifications: "",
-    contact: "",
-    regid: "",
-    department: "",
-    actingClassTeacherFor: "",
-    expertise: [],
-    currentlyTeaching: [],
-    additionalTeachingDepartments: [],
-    additionalTeachingClasses: [],
-    languages: [],
-    hobbies: "",
-    profileImage: null,
-    termsAccepted: false,
+    const [languages, setLanguages] = useState([]);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [isError, setIsError] = useState(false);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+const [load,setLoad] = useState(false)
+    const handleChange = (event) => {
+      setTeacherData({ ...teacherData, [event.target.name]: event.target.value });
   };
-  const [values, setValues] = useState(initialstate);
+  const fetchClasses = async ()=>{
+    axios.get(`${REACT_API_URL}/api/classes`)
+    .then(response => {
+        setAllClasses(response.data); // Assuming the API returns an array of class objects
+    })
+    .catch(error => {
+        console.error('Error fetching classes:', error);
+        setSnackbarMessage('Failed to fetch classes');
+        setIsError(true);
+        setOpenSnackbar(true);
+    });
+  }
+  useEffect(() => {
+  fetchClasses()
+}, []);
 
-  const [errors, setErrors] = useState({});
-  const regstate = useSelector((state) => state.registerUserReducer);
-  const { error, loading, success } = regstate;
-
-  const [previewImage, setPreviewImage] = useState(null);
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+  const handleLanguagesChange = (event) => {
+      setLanguages(event.target.value);
   };
-
-  const handleExpertiseChange = (event, newValue) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      expertise: newValue,
-    }));
-  };
-  const handleCurrentlyTeaching = (event, newValue) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      currentlyTeaching: newValue,
-    }));
-  };
-  const handleAdditionalTeachingClasses = (event, newValue) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      additionalTeachingClasses: newValue,
-    }));
-  };
-  const handleAdditionalTeachingDepartments = (event, newValue) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      additionalTeachingDepartments: newValue,
-    }));
-  };
-  const handleLanguages = (event, newValue) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      languages: newValue,
-    }));
-  };
-
-  const handleImageChange = (event) => {
+  const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setValues((prevValues) => ({
-      ...prevValues,
-      profileImage: file,
-    }));
-    setPreviewImage(URL.createObjectURL(file));
-  };
+    if (file) {
+        if (file.size > 5 * 1024 * 1024) { // 5 MB limit
+            setSnackbarMessage('Error: Image size should be less than 5MB');
+            setIsError(true);
+            setOpenSnackbar(true);
+        } else {
+            const fileUrl = URL.createObjectURL(file);
+            setImagePreviewUrl(fileUrl);
+            setProfilePicture(file);
+            if (openSnackbar) {
+                setOpenSnackbar(false); // Close snackbar if open
+            }
+        }
+    }
+};
+const handleImageUpload = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const validationErrors = validate(values);
+  try {
+      const response = await axios.post('https://reanarration-fastify-api.vercel.app/upload', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      });
+      console.log(response.data)
+      return response.data;  // Assuming API response contains the URL of the uploaded file
+  } catch (error) {
+      console.error('Failed to upload image', error);
+      throw new Error('Failed to upload image');
+  }
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  
+  // Simple client-side validation example
+  if (!teacherData.email.includes('@')) {
+      setSnackbarMessage('Invalid email address. Please enter a valid email.');
+      setIsError(true);
+      setOpenSnackbar(true);
+      return;
+  }
+
+  const formData = new FormData();
+  Object.keys(teacherData).forEach(key => {
+      formData.append(key, teacherData[key]);
+  });
+  formData.append('languages', languages.join(', '));
+  setLoad(true);
+  if (profilePicture) {
     try {
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-      } else {
-        const submitdata = new FormData();
-        submitdata.append("name", values.name);
-        submitdata.append("regId", values.regid);
-        submitdata.append("email", values.email);
-        submitdata.append("department", values.department);
-        submitdata.append("languages", values.languages);
-        submitdata.append("qualifications", values.qualifications);
-        submitdata.append("currentlyTeaching", values.currentlyTeaching);
-        submitdata.append(
-          "actingClassTeacherFor",
-          values.actingClassTeacherFor
-        );
-        submitdata.append(
-          "additionalTeachingClasses",
-          values.additionalTeachingClasses
-        );
-        submitdata.append(
-          "additionalTeachingDepartments",
-          values.additionalTeachingDepartments
-        );
-        submitdata.append("contact", values.contact);
-        submitdata.append("expertise", values.expertise);
-        submitdata.append("hobbies", values.hobbies);
-        submitdata.append("password", values.password);
-        submitdata.append("profileimg", values.profileImage);
-        dispatch(registerUser(submitdata));
-        toast("Registration successfull");
-        setValues(initialstate);
-        setPreviewImage(null);
-      }
-    } catch (error) {}
-  };
+        const imageUrl = await handleImageUpload(profilePicture);
+        setTeacherData({ ...teacherData, profilePicture: imageUrl });
+    } catch (error) {
+        setSnackbarMessage(error.message || 'Failed to upload profile picture!');
+        setIsError(true);
+        setOpenSnackbar(true);
+        return;
+    }
+}
+const finalData = { ...teacherData, languages: languages.join(','),classesTeaching: selectedClasses };
 
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.name) {
-      errors.name = "Name is required";
-    }
-
-    if (!values.email) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      errors.email = "Email is invalid";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length < 8) {
-      errors.password = "Password must beat least 8 characters";
-    }
-    if (values.password !== values.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
-    }
-    if (!values.contact) {
-      errors.contact = "Contact is required";
-    } else if (!/^\d{10}$/.test(values.contact)) {
-      errors.contact = "Please enter 10 digit number";
-    }
-
-    if (!values.regid) {
-      errors.regid = "Registration ID is required";
-    }
-    if (!values.qualifications) {
-      errors.qualifications = "Qualification is required";
-    }
-    if (!values.department) {
-      errors.department = "Department is required";
-    }
-    if (!values.actingClassTeacherFor) {
-      errors.actingClassTeacherFor = "actingClassTeacherFor is required";
-    }
-
-    if (values.expertise.length === 0) {
-      errors.expertise = "Teaching expertise is required";
-    }
-    if (values.currentlyTeaching.length === 0) {
-      errors.currentlyTeaching = "Currently teaching class is required";
-    }
-    if (values.additionalTeachingClasses.length === 0) {
-      errors.additionalTeachingClasses =
-        "Additional teaching classes is required";
-    }
-    if (values.additionalTeachingDepartments.length === 0) {
-      errors.additionalTeachingDepartments =
-        "Additional teaching Departments is required";
-    }
-    if (values.languages.length === 0) {
-      errors.languages = "Languages is required";
-    }
-    if (!values.hobbies) {
-      errors.hobbies = "hobbies is required";
-    }
-
-    if (!values.profileImage) {
-      errors.profileImage = "Profile image is required";
-    }
-
-    if (!values.termsAccepted) {
-      errors.termsAccepted = "Terms and conditions must be accepted";
-    }
-
-    return errors;
-  };
-  if (loading) {
-    return <CircularProgress sx={{ textAlign: "center" }} />;
+  try {
+   
+   const response =    await axios.post('http://localhost:5000/management/register', finalData);
+   console.log(response.data)
+      console.log(finalData)
+      setSnackbarMessage('Registration successful!');
+      setIsError(false);
+      setOpenSnackbar(true);
+      setLoad(false);
+      setTeacherData({
+        name: '',
+        email: '',
+        password: '',
+        regId: '',
+        department: '',
+        contact: '',
+        qualifications: ''
+    })
+    setProfilePicture(null);
+    setImagePreviewUrl('');
+    setLanguages([])
+      // Reset form fields
+  } catch (error) {
+      setSnackbarMessage(error.response.data.message || 'Registration failed!');
+      setIsError(true);
+      setOpenSnackbar(true);
+      setLoad(false)
   }
-  if (error) {
-    return <Alert severity="error">{error.message}</Alert>;
-  }
-
-  return (
-    <form
-      style={{ backgroundColor: "#2196f3", height: "100%" }}
-      onSubmit={handleSubmit}
-    >
-      {success && <ToastContainer />}
-      <Container sx={{ p: { xs: 1, md: 5 } }}>
-        <Grid
-          component={Container}
-          container
-          spacing={2}
-          sx={{
-            px: 5,
-            py: 2,
-            bgcolor: "white",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src={logos.logo2}
-            href="/"
-            sx={{
-              m: 2,
-              display: { xs: "none", md: "flex" },
-              width: "5%",
-            }}
-          />
-          <Grid item xs={12}>
-            <Typography variant="h4">Registration Form</Typography>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Name"
-              fullWidth
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              error={errors.name !== undefined}
-              helperText={errors.name}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Email"
-              fullWidth
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              error={errors.email !== undefined}
-              helperText={errors.email}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              name="password"
-              label="Password"
-              type="password"
-              fullWidth
-              value={values.password}
-              onChange={handleChange}
-              error={Boolean(errors.password)}
-              helperText={errors.password}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              fullWidth
-              value={values.confirmPassword}
-              onChange={handleChange}
-              error={Boolean(errors.confirmPassword)}
-              helperText={errors.confirmPassword}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Contact"
-              fullWidth
-              name="contact"
-              value={values.contact}
-              onChange={handleChange}
-              error={errors.contact !== undefined}
-              helperText={errors.contact}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Registration ID"
-              fullWidth
-              name="regid"
-              value={values.regid}
-              onChange={handleChange}
-              error={errors.regid !== undefined}
-              helperText={errors.regid}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Qualifications"
-              fullWidth
-              name="qualifications"
-              value={values.qualifications}
-              onChange={handleChange}
-              error={errors.qualifications !== undefined}
-              helperText={"please include comma after each qualification "}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-              error={errors.department !== undefined}
-            >
-              <InputLabel id="department-label">Department</InputLabel>
-              <Select
-                required
-                size="small"
-                variant="standard"
-                labelId="department-label"
-                name="department"
-                value={values.department}
-                onChange={handleChange}
-              >
-                {departments.map((dept) => (
-                  <MenuItem key={dept.value} value={dept.value}>
-                    {dept.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>{errors.department}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <FormControl
-              fullWidth
-              className={classes.formControl}
-              error={errors.actingClassTeacherFor !== undefined}
-            >
-              <InputLabel id="actingClassTeacherFor-label">
-                actingClassTeacherFor
-              </InputLabel>
-              <Select
-                required
-                size="small"
-                variant="standard"
-                labelId="actingClassTeacherFor-label"
-                name="actingClassTeacherFor"
-                value={values.actingClassTeacherFor}
-                onChange={handleChange}
-              >
-                {actingClassTeacherFor.map((dept, i) => (
-                  <MenuItem key={i} value={dept}>
-                    {dept}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>{errors.actingClassTeacherFor}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Autocomplete
-              multiple
-              options={expertiseOptions}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  size="small"
-                  variant="standard"
-                  {...params}
-                  label="Teaching Expertise"
-                  placeholder="Select expertise"
-                  error={errors.expertise !== undefined}
-                  helperText={errors.expertise}
-                />
-              )}
-              value={values.expertise}
-              onChange={handleExpertiseChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Autocomplete
-              multiple
-              options={currentlyTeachingClasses}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  size="small"
-                  variant="standard"
-                  {...params}
-                  label="Currently teaching"
-                  placeholder="select classes"
-                  error={errors.currentlyTeaching !== undefined}
-                  helperText={errors.currentlyTeaching}
-                />
-              )}
-              value={values.currentlyTeaching}
-              onChange={handleCurrentlyTeaching}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Autocomplete
-              multiple
-              options={additionalTeachingclasses}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  size="small"
-                  variant="standard"
-                  {...params}
-                  label="Additional Teaching Classes"
-                  placeholder="select  classes"
-                  error={errors.additionalTeachingClasses !== undefined}
-                  helperText={errors.additionalTeachingClasses}
-                />
-              )}
-              value={values.additionalTeachingClasses}
-              onChange={handleAdditionalTeachingClasses}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Autocomplete
-              multiple
-              options={additionalteachingdepts}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  size="small"
-                  variant="standard"
-                  {...params}
-                  label="Additional Teaching departments"
-                  placeholder="select  departments"
-                  error={errors.additionalTeachingDepartments !== undefined}
-                  helperText={errors.additionalTeachingDepartments}
-                />
-              )}
-              value={values.additionalTeachingDepartments}
-              onChange={handleAdditionalTeachingDepartments}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              label="Hobbies"
-              fullWidth
-              name="hobbies"
-              value={values.hobbies}
-              onChange={handleChange}
-              error={errors.hobbies !== undefined}
-              helperText={errors.hobbies}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Autocomplete
-              multiple
-              options={languages}
-              getOptionLabel={(option) => option}
-              renderInput={(params) => (
-                <TextField
-                  size="small"
-                  variant="standard"
-                  {...params}
-                  label="Languages"
-                  placeholder="select  languages"
-                  error={errors.languages !== undefined}
-                  helperText={errors.languages}
-                />
-              )}
-              value={values.languages}
-              onChange={handleLanguages}
-            />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Stack direction={"column"} spacing={2}>
-              <input
-                accept="image/*"
-                className={classes.fileInput}
-                id="profile-image"
-                type="file"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="profile-image">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component="span"
-                  fullWidth
-                >
-                  Upload Profile Image
-                </Button>
-              </label>
-              {previewImage && (
-                <img
-                  src={previewImage}
-                  alt="Profile Preview"
-                  style={{ width: "200px", height: "200px", margin: "50px" }}
-                />
-              )}
-              {errors.profileImage && (
-                <FormHelperText error>{errors.profileImage}</FormHelperText>
-              )}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.termsAccepted}
-                    onChange={(event) =>
-                      setValues((prevValues) => ({
-                        ...prevValues,
-                        termsAccepted: event.target.checked,
-                      }))
-                    }
-                    color="primary"
-                  />
-                }
-                label={
-                  <Typography variant="body2">
-                    I accept the terms and conditions
-                  </Typography>
-                }
-              />
-              {errors.termsAccepted && (
-                <FormHelperText error>{errors.termsAccepted}</FormHelperText>
-              )}
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-              >
-                Register
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Container>
-    </form>
+};
+const handleClassSelectionChange = (event) => {
+  const {
+      target: { value },
+  } = event;
+  setSelectedClasses(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
   );
 };
 
+if(load){
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <CircularProgress />
+    </div>
+  );
+}
+return (
+  <Container maxWidth='md' component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+    <Paper elevation={3} sx={{p:3,mt:4}}>
+    <Typography variant="h4" textAlign={'left'} mt={2} gutterBottom>Teacher Registration</Typography>
+      <Grid container spacing={2}>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  value={teacherData.name}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={teacherData.email}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  value={teacherData.password}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="regId"
+                  label="Registration ID"
+                  name="regId"
+                  autoComplete="registration-id"
+                  value={teacherData.regId}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+          <FormControl fullWidth>
+              <InputLabel id="department-label">Department</InputLabel>
+              <Select variant='standard'
+                  labelId="department-label"
+                  id="department"
+                  name="department"
+                  value={teacherData.department}
+                  onChange={handleChange}
+              >
+                  {predefinedDepartments.map((department) => (
+                      <MenuItem key={department} value={department}>
+                          {department}
+                      </MenuItem>
+                  ))}
+              </Select>
+          </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+    <InputLabel id="classes-teaching-label">Classes Teaching</InputLabel>
+    <Select
+        labelId="classes-teaching-label"
+        multiple size='small'
+        value={selectedClasses}
+        onChange={handleClassSelectionChange}
+        input={<OutlinedInput id="select-multiple-classes" label="Classes Teaching" />}
+        renderValue={(selected) => (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              { selected.map(id => allClasses.find(cls => cls._id === id)?.name).join(', ')}
+          </Box>
+      )}
+    > 
+        {allClasses.map((cls) => (
+            <MenuItem key={cls._id} value={cls._id}>
+                {cls.name}
+            </MenuItem>
+        ))}
+    </Select>
+</FormControl>
+
+          </Grid>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="contact"
+                  label="Contact Number"
+                  name="contact"
+                  type="tel"
+                  autoComplete="tel"
+                  value={teacherData.contact}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+              <TextField size='small'
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="qualifications"
+                  label="Qualifications"
+                  name="qualifications"
+                  autoComplete="qualifications"
+                  value={teacherData.qualifications}
+                  onChange={handleChange}
+              />
+          </Grid>
+          <Grid item xs={6}>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel id="demo-multiple-chip-label">Languages</InputLabel>
+          <Select size='small'
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={languages}
+              onChange={handleLanguagesChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Languages" />}
+              renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                          <Chip key={value} label={value} />
+                      ))}
+                  </Box>
+              )}
+          >
+              {predefinedLanguages.map((language) => (
+                  <MenuItem key={language} value={language}>
+                      {language}
+                  </MenuItem>
+              ))}
+          </Select>
+      </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+   <Stack direction={'row'} spacing={5}>
+{!imagePreviewUrl && 
+   <Box>
+   <InputLabel htmlFor="icon-button-file">Upload Profile Picture</InputLabel>
+    <Input
+        accept="image/*"
+        id="icon-button-file"
+        type="file"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+    />
+    <label htmlFor="icon-button-file">
+        <IconButton color="primary" component="span">
+            <PhotoCamera />
+        </IconButton>
+    </label>
+   </Box>}
+   {imagePreviewUrl && (
+  
+        
+        <Box sx={{
+            position: 'relative',
+            width: '200px',  // Define the width explicitly for consistent sizing
+            height: '200px', // Define the height explicitly for consistent sizing
+            my: 2,
+         
+            borderColor: 'grey.300'
+        }}>
+            <Typography variant="subtitle1" sx={{ mb: 1 }}>Profile Picture Preview:</Typography>
+            {imagePreviewUrl && (
+                <>
+                    
+                    <img src={imagePreviewUrl} alt="Profile" style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',marginBottom:'5px'
+                    }} />
+                    <IconButton
+                        sx={{
+                            position: 'absolute',
+                            top: 8, // Adjust top position
+                            right: 8, // Adjust right position
+                            color: 'grey.800',
+                            backgroundColor: 'common.white', // Adding a white background
+                            '&:hover': {
+                                backgroundColor: 'grey.300', // Change color on hover for better UI feedback
+                            },
+                            borderRadius: '50%', // Makes the button rounded
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)', // Adds shadow for better visibility
+                            mt:3
+                        }}
+                        onClick={() => {
+                            setImagePreviewUrl('');
+                            setProfilePicture(null); // Ensure to clear the file state as well
+                        }}
+                    >
+                        <CloseOutlined />
+                    </IconButton>
+                </>
+            )}
+        </Box>
+        
+    )}
+   </Stack>
+</Grid>
+
+
+      </Grid>
+     
+ 
+      <Button type="submit"  variant="contained" sx={{ mt: 5, mb: 2 }}>Register</Button>
+    </Paper>
+      {openSnackbar && (
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+              <Alert severity={isError ? 'error' : 'success'} sx={{ width: '100%' }}>{snackbarMessage}</Alert>
+          </Snackbar>
+      )}
+  </Container>
+);
+}
+
 export default RegistrationForm;
+
+
+

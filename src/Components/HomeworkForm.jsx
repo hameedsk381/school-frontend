@@ -19,7 +19,6 @@ import { useId } from "react";
 import Login from "./Login";
 
 const HomeworkForm = () => {
-    const subjects = ["Telugu", "Hindi", "English", "Maths", "EVS", "Science", "Biology", "Physics", "Chemistry", "Social Studies", "Moral Science", "General Knowledge", "Computers", "Catechism"]
 
     const idd = useId();
   const [homework, setHomework] = useState({

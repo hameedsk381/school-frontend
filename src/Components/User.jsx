@@ -32,7 +32,7 @@ const User = () => {
     regId: currentUser.regId,
     profilePicture: currentUser.profilePicture,
     isAdmin: currentUser.isAdmin,
-    currentlyTeaching: currentUser.currentlyTeaching,
+    currentlyTeaching: currentUser.classesTeaching.map(cls => cls.name).join(', '),
     actingClassTeacherFor: currentUser.actingClassTeacherFor,
     contact: currentUser.contact,
     additionalTeachingClasses: currentUser.additionalTeachingClasses,
@@ -152,7 +152,7 @@ const User = () => {
                   <ListItem>
                     <ListItemText
                       primary="Currently Teaching"
-                      secondary={`${user.currentlyTeaching},${user.additionalTeachingClasses}`}
+                      secondary={user.currentlyTeaching}
                     />
                   </ListItem>
                   <ListItem>

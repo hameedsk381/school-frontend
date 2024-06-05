@@ -21,7 +21,7 @@ import { logos } from "../assets";
 const theme = createTheme();
 
 export default function Login() {
-  const [regId, setregId] = React.useState("");
+  const [email, setEmail] = React.useState("");
 
   const [password, setPassword] = React.useState("");
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function Login() {
     e.preventDefault();
     const user = {
       password,
-      regId,
+      email,
     };
     dispatch(loginUser(user));
   };
@@ -80,14 +80,14 @@ export default function Login() {
               <Grid item xs={12}>
                 <TextField
                   required
-                  fullWidth
-                  id="reg_id"
-                  label="Registration Id"
-                  name="reg_id"
-                  autoComplete="reg_id"
-                  value={regId}
+                  fullWidth type="email"
+                  id="email"
+                  label="email"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
                   onChange={(e) => {
-                    setregId(e.target.value);
+                    setEmail(e.target.value);
                   }}
                 />
               </Grid>
