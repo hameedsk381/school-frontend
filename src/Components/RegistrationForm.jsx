@@ -14,12 +14,13 @@ function RegistrationForm() {
         regId: '',
         department: '',
         contact: '',
-        qualifications: ''
+        qualifications: '',
+        additionalTeachingClasses: ''
     });
     const [profilePicture, setProfilePicture] = useState(null);
     const [allClasses, setAllClasses] = useState([]); // Stores all fetched classes
 const [selectedClasses, setSelectedClasses] = useState([]); // Stores the selected class IDs
-
+const [additionalselectedClasses, setAdditionalSelectedClasses] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -111,7 +112,7 @@ const handleSubmit = async (event) => {
         return;
     }
 }
-const finalData = { ...teacherData, languages: languages.join(','),classesTeaching: selectedClasses };
+const finalData = { ...teacherData, languages: languages.join(','),classesTeaching: selectedClasses,additionalclassesTeaching: additionalselectedClasses };
 
   try {
    
@@ -129,7 +130,7 @@ const finalData = { ...teacherData, languages: languages.join(','),classesTeachi
         regId: '',
         department: '',
         contact: '',
-        qualifications: ''
+        qualifications: '',additionalTeachingClasses:''
     })
     setProfilePicture(null);
     setImagePreviewUrl('');
@@ -151,7 +152,16 @@ const handleClassSelectionChange = (event) => {
       typeof value === 'string' ? value.split(',') : value,
   );
 };
-
+const handleadditionalClassSelectionChange = (event) => {
+    const {
+        target: { value },
+    } = event;
+    setAdditionalSelectedClasses(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+  
 if(load){
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -244,6 +254,30 @@ return (
         multiple size='small'
         value={selectedClasses}
         onChange={handleClassSelectionChange}
+        input={<OutlinedInput id="select-multiple-classes" label="Classes Teaching" />}
+        renderValue={(selected) => (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              { selected.map(id => allClasses.find(cls => cls._id === id)?.name).join(', ')}
+          </Box>
+      )}
+    > 
+        {allClasses.map((cls) => (
+            <MenuItem key={cls._id} value={cls._id}>
+                {cls.name}
+            </MenuItem>
+        ))}
+    </Select>
+</FormControl>
+
+          </Grid>
+          <Grid item xs={6}>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+    <InputLabel id="classes-teaching-label">Additional Classes Teaching</InputLabel>
+    <Select
+        labelId="classes-teaching-label"
+        multiple size='small'
+        value={additionalselectedClasses}
+        onChange={handleadditionalClassSelectionChange}
         input={<OutlinedInput id="select-multiple-classes" label="Classes Teaching" />}
         renderValue={(selected) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
