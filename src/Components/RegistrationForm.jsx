@@ -31,7 +31,7 @@ const [load,setLoad] = useState(false)
       setTeacherData({ ...teacherData, [event.target.name]: event.target.value });
   };
   const fetchClasses = async ()=>{
-    axios.get(`${REACT_API_URL}/api/classes`)
+   await axios.get(`${REACT_API_URL}/api/classes`)
     .then(response => {
         setAllClasses(response.data); // Assuming the API returns an array of class objects
     })
