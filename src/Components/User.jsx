@@ -41,7 +41,7 @@ const User = () => {
   return (
     <>
       <Box
-        sx={{ mx: { xs: 0, lg: 25 }, p: 3, height: "100%", color: "#2196f3" }}
+        sx={{ mx: { xs: 0, lg: 25 },mt:6, p: 3, height: "100%", color: "#2196f3" }}
       >
         {loading && <CircularProgress />}
         {error && (
