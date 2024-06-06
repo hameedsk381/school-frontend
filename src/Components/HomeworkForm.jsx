@@ -12,7 +12,9 @@ import {
   Stack,
   CircularProgress,
   IconButton,
-  Box
+  Box,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { Textarea } from "@mui/joy";
 import axios from "axios";
@@ -34,7 +36,7 @@ const HomeworkForm = () => {
 const [loading,setLoading] = useState(false);
   const loginstate = useSelector((state) => state.loginUserReducer);
   const { currentUser } = loginstate;
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleChange = (e) => {
     setHomework((prevHomework) => ({
       ...prevHomework,
@@ -79,51 +81,65 @@ const [loading,setLoading] = useState(false);
     }
 };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append("description", homework.description);
-      formData.append("section", homework.class.split("-")[1]);
-      formData.append("regId", currentUser.regId); // Replace with the actual teacher ID
-      formData.append("note", homework.note);
-      formData.append("classname", homework.class.split("-")[0]);
-      formData.append("subject", homework.subject);
-      if (file) {
-        const imageUrl = await handleImageUpload(file);
-        formData.append("file", imageUrl);
-      }
-
-      // Send API request using Axios
-      const response = await axios.post(`${REACT_API_URL}/homework`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-setLoading(false)
-      console.log(response.data);
-
-      // Reset the form
-      setHomework({
-        description: "",
-        note: "",
-        class: "",
-        subject: ""
-      });
-      setFile(null);
-      setFilePreview(null);
-    } catch (error) {
-      console.log(error);
-      setLoading(false)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  
+  try {
+    let imageUrl = null;
+    if (file) {
+      imageUrl = await handleImageUpload(file); // Function to upload the file and return the URL
     }
-  };
+
+    const payload = {
+      description: homework.description,
+      section: homework.class.split("-")[1],
+      regId: currentUser.regId, // Replace with the actual teacher ID
+      note: homework.note,
+      classname: homework.class.split("-")[0],
+      subject: homework.subject,
+      attachment: imageUrl
+    };
+    
+    console.log(payload);
+
+    // Send API request using Axios
+    const response = await axios.post(`${REACT_API_URL}/homework`, payload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    setLoading(false);
+
+    console.log(response.data);
+
+    // Reset the form
+    setHomework({
+      description: "",
+      note: "",
+      class: "",
+      subject: ""
+    });
+    setFile(null);
+    setFilePreview(null);
+    setSnackbarOpen(true);
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+  }
+};
+
 
   if (currentUser == null) {
     return <Login />
   }
   const currentteachingclasses = currentUser.classesTeaching.concat(currentUser.additionalclassesTeaching);
-  
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
   return (
     <Card sx={{ width: { xs: "80%", md: "50%", lg: "35%" }, margin: "auto", marginBlock: 6 }}>
       <CardContent component={Stack} spacing={3}>
@@ -207,6 +223,15 @@ setLoading(false)
           </Button>
         </form>
       </CardContent>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+          Homework uploaded successfully!
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };
