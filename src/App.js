@@ -44,6 +44,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdmForm from "./Components/AdmForm";
 import ExamForm from "./Components/ExamForm";
 import SearchResults from "./Components/SearchResults";
+import HomeworkDashboard from "./Components/HomeworkDashboard";
 
 const queryClient = new QueryClient();
 
@@ -94,7 +95,7 @@ function App() {
         <Route path="/event/:id" element={<SingleEvent />} exact />
         <Route path="/forgot-password" element={<ForgotPassword />} exact />
         <Route path="/reset-password" element={<ResetPassword />} exact />
-        <Route path="/homeworkform" element={<HomeworkForm />} exact />
+        <Route path="/homeworkform" element={<HomeworkDashboard />} exact />
         <Route path="/announcements" element={<AnnouncementPanel />} exact />
         <Route path="/events" element={<EventsPanel />} exact />
         <Route path="/admissionform" element={<AdmForm />} exact />

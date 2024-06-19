@@ -30,7 +30,6 @@ const User = () => {
     regId: currentUser.regId,
     profilePicture: currentUser.profilePicture,
     isAdmin: currentUser.isAdmin,
-    expertise: currentUser.expertise.join(', '),
     qualifications: currentUser.qualifications,
     contact: currentUser.contact,
     languages: currentUser.languages.join(', '),
@@ -122,12 +121,7 @@ const User = () => {
                   </ListItem>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <ListItem>
-                    <ListItemText
-                      primary="Expertise"
-                      secondary={user.expertise}
-                    />
-                  </ListItem>
+             
                   <ListItem>
                     <ListItemText
                       primary="Currently Teaching"
