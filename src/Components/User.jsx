@@ -95,7 +95,7 @@ const User = () => {
               </Typography>
             </Stack>
             <Container>
-              <Button component={Link} variant="contained" to="/homeworkform">
+              <Button sx={{mt:2}} component={Link} variant="contained" to="/homeworkform">
                 Add Homework
               </Button>
 
