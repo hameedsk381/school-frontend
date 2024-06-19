@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,14 +14,15 @@ import {
   IconButton,
   Box,
   Snackbar,
-  Alert,
+  Alert
 } from "@mui/material";
 import { Textarea } from "@mui/joy";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { AttachFile, Cancel } from "@mui/icons-material";
-import Login from "./Login";
 import REACT_API_URL from "../config";
+import { useId } from "react";
+import Login from "./Login";
+import { AttachFile, Cancel } from "@mui/icons-material";
 
 const HomeworkForm = () => {
   const [homework, setHomework] = useState({
@@ -31,16 +32,14 @@ const HomeworkForm = () => {
   });
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+const [loading,setLoading] = useState(false);
+  const loginstate = useSelector((state) => state.loginUserReducer);
+  const { currentUser } = loginstate;
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const loginState = useSelector((state) => state.loginUserReducer);
-  const { currentUser } = loginState;
-
   const handleChange = (e) => {
     setHomework((prevHomework) => ({
       ...prevHomework,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -66,77 +65,79 @@ const HomeworkForm = () => {
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     try {
-      const response = await axios.post(
-        "https://reanarration-fastify-api.vercel.app/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return response.data.url; // Assuming API response contains the URL of the uploaded file
+        const response = await axios.post('https://reanarration-fastify-api.vercel.app/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;  // Assuming API response contains the URL of the uploaded file
     } catch (error) {
-      console.error("Failed to upload image", error);
-      throw new Error("Failed to upload image");
+        console.error('Failed to upload image', error);
+        throw new Error('Failed to upload image');
     }
-  };
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  
+  try {
+    let imageUrl = null;
+    if (file) {
+      imageUrl = await handleImageUpload(file); // Function to upload the file and return the URL
+    }
 
-    try {
-      let imageUrl = null;
-      if (file) {
-        imageUrl = await handleImageUpload(file); // Function to upload the file and return the URL
+    const payload = {
+      description: homework.description,
+      teacher: currentUser._id, // Replace with the actual teacher ID
+      note: homework.note,
+      classname: homework.class,
+      subject: currentUser.department,
+      attachment: imageUrl ? imageUrl : null
+    };
+    
+    console.log(payload);
+
+    // Send API request using Axios
+    const response = await axios.post(`${REACT_API_URL}/homework`, payload, {
+      headers: {
+        'Content-Type': 'application/json'
       }
+    });
+    setLoading(false);
 
-      const payload = {
-        classname: currentUser.classname,
-        subject: currentUser.subject,
-        description: homework.description,
-        note: homework.note,
-        teacher: currentUser.teacher,
-        attachment: imageUrl ? imageUrl : null,
-      };
+    console.log(response.data);
 
-      // Send API request using Axios
-      const response = await axios.post(`${REACT_API_URL}/homework`, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      setLoading(false);
-      setFile(null);
-      setFilePreview(null);
-      setSnackbarOpen(true);
-      setHomework({
-        description: "",
-        note: "",
-        class: "",
-      });
-    } catch (error) {
-      console.error("Failed to submit homework", error);
-      setLoading(false);
-    }
-  };
+    setFile(null);
+    setFilePreview(null);
+    setSnackbarOpen(true);
+    setHomework({
+      description: "",
+      note: "",
+      class: "",
+      subject: ""
+    })
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+  }
+};
 
+
+  if (currentUser == null) {
+    return <Login />
+  }
+  const currentteachingclasses = currentUser.classesTeaching;
   const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setSnackbarOpen(false);
   };
-
-  if (!currentUser) {
-    return <Login />;
-  }
-
   return (
     <Card variant="outlined">
       <CardContent component={Stack} spacing={3}>
@@ -144,9 +145,7 @@ const HomeworkForm = () => {
           Upload Homework
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Textarea
-            minRows={7}
-            placeholder="Enter the homework.."
+          <Textarea minRows={7} placeholder="Enter the homework.."
             name="description"
             label="Homework Description"
             value={homework.description}
@@ -154,8 +153,7 @@ const HomeworkForm = () => {
             fullWidth
             margin="normal"
           />
-          <TextField
-            size="small"
+          <TextField size="small"
             name="note"
             label="Additional Note"
             value={homework.note}
@@ -163,7 +161,7 @@ const HomeworkForm = () => {
             fullWidth
             margin="normal"
           />
-          <FormControl fullWidth margin="normal">
+          <FormControl size="small" fullWidth margin="normal">
             <InputLabel>Choose class</InputLabel>
             <Select
               name="class"
@@ -171,23 +169,20 @@ const HomeworkForm = () => {
               onChange={handleChange}
               label="Classes Teaching"
             >
-              {currentUser.classesTeaching.map((cls) => (
-                <MenuItem key={cls._id} value={cls._id}>
-                  {cls.name}
-                </MenuItem>
+              {currentteachingclasses.map((item, i) => (
+                <MenuItem key={i} value={item._id}>{item.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
           <FormControl fullWidth margin="normal">
-            <InputLabel>Subject</InputLabel>
+            <InputLabel id="department-label">Subject</InputLabel>
             <Select
-              value={currentUser.subject}
+              labelId="department-label"
+              value={currentUser.department}
               label="Subject"
               readOnly
             >
-              <MenuItem value={currentUser.subject}>
-                {currentUser.subject}
-              </MenuItem>
+              <MenuItem value={currentUser.department}>{currentUser.department}</MenuItem>
             </Select>
           </FormControl>
           <Stack direction="row" alignItems="center" spacing={2} margin="normal">
@@ -222,7 +217,7 @@ const HomeworkForm = () => {
           )}
 
           <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 3 }} disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : 'Submit'}
+            {loading ? <CircularProgress/> : 'Submit'}
           </Button>
         </form>
       </CardContent>
