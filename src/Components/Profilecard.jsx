@@ -47,7 +47,7 @@ export default function Profilecard({ data }) {
           <Link
             size="small"
             sx={{ textTransform: "capitalize" }}
-            to={`/user/${data.regId}`}
+            to={`/user/${data._id}`}
           >
             View profile
           </Link>

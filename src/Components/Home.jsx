@@ -136,7 +136,7 @@ const Home = () => {
             component={Link}
             variant="contained"
             size="small"
-            sx={{ m: 4 }}
+            sx={{ mx: 4 }}
             to="/announcements"
           >
             View all announcements <ArrowForward sx={{ mx: 1 }} fontSize="inherit" />

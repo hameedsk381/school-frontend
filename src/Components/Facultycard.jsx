@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Avatar,
   Box,
@@ -9,90 +11,72 @@ import {
   Paper,
   Stack,
   Typography,
+  Skeleton,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import axios from "axios";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-
 import { Link, useParams } from "react-router-dom";
-
-import REACT_API_URL from "../config";
 import Swal from "sweetalert2";
+import REACT_API_URL from "../config";
 
 const Facultycard = () => {
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const profile = async () => {
-    const res = await axios.get(`${REACT_API_URL}/users/getuser/${id}`);
-    setUser(res.data);
- console.log(res.data)
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`${REACT_API_URL}/management/profile/${id}`);
+      setUser(response.data);
+      setLoading(false);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Failed to fetch user profile:", error);
+      setLoading(false);
+    }
   };
-  const profiledata = {
-  
-        
-    name: user.name,
-    email: user.email,
-    department: user.department,
-    regId: user.regId,
-    profilePicture:user.profilePicture,
-    isAdmin:user.isAdmin,
-    currentlyTeaching:user.currentlyTeaching,
-    actingClassTeacherFor:user.actingClassTeacherFor,
-    contact:user.contact,
-    additionalTeachingClasses:user.additionalTeachingClasses,
-    additionalTeachingDepartments:user.additionalTeachingDepartments,
-    languages:user.languages,
-    expertise:user.expertise,
-    qualifications:user.qualifications
 
-
-
-    
-  
- }
   useEffect(() => {
-    profile();
+    fetchProfile();
   }, []);
 
   return (
     <>
-      <Box
-        sx={{ mx: { xs: 0, lg: 25 }, p: 3, height: "100%", color: "#2196f3" }}
-      >
-      
+      <Box sx={{ mx: { xs: 0, lg: 25 }, px: 3, height: "100%", color: "#2196f3" }}>
         <Paper sx={{ p: 2, my: 2 }} elevation={2}>
           <Box>
             <Box
               sx={{
                 width: "100%",
                 height: { xs: 100, lg: 150 },
-
                 opacity: 0.8,
-                background:
-                  "linear-gradient(to right, #2196f3 ,#2196f3, #2196f3)",
+                background: "linear-gradient(to right, #2196f3 ,#2196f3, #2196f3)",
               }}
             />
-            <Avatar variant="rounded"
-              src={`data:image/jpeg;base64,${profiledata.profilePicture}`}
-              onClick={()=>{Swal.fire({
-                title: `${profiledata.name}`,
-               
-                imageUrl: `data:image/jpeg;base64,${profiledata.profilePicture}`,
-                imageWidth: 400,
-                imageHeight: 200,
-                imageAlt: 'Custom image',
-              })}}
-              sx={{
-                my: { xs: -6, lg: -10 },
-                margin: "auto",
-objectFit:"cover",
-                width: { lg: 150, xs: 100 },
-                height: { lg: 150, xs: 100 },
-                border: "5px solid white",
-              }}
-            />
+            {loading ? (
+              <Skeleton variant="circular" width={150} height={150} sx={{ mx: 'auto', my: { xs: -6, lg: -10 }, border: "5px solid white" }} />
+            ) : (
+              <Avatar
+                variant="circular"
+                src={`data:image/jpeg;base64,${user.profilePicture}`}
+                onClick={() => {
+                  Swal.fire({
+                    title: `${user.name}`,
+                    imageUrl: `data:image/jpeg;base64,${user.profilePicture}`,
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: "Custom image",
+                  });
+                }}
+                sx={{
+                  my: { xs: -6, lg: -10 },
+                  margin: "auto",
+                  objectFit: "cover",
+                  width: { lg: 150, xs: 100 },
+                  height: { lg: 150, xs: 100 },
+                  border: "5px solid white",
+                }}
+              />
+            )}
             <Stack
               sx={{
                 mt: { xs: 7, lg: 11 },
@@ -101,58 +85,67 @@ objectFit:"cover",
                 alignItems: "center",
               }}
             >
-              <Typography
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: { xs: 17, lg: 25, textTransform: "capitalize" },
-                }}
-              >
-                {profiledata.name}
-              </Typography>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: { xs: 14, lg: 18 },textTransform:'capitalize' }}
-                color={grey[600]}
-              >
-                {profiledata.department} Department
-              </Typography>
+              {loading ? (
+                <Skeleton width="60%" height={40} />
+              ) : (
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: { xs: 17, lg: 25, textTransform: "capitalize" },
+                  }}
+                >
+                  {user.name}
+                </Typography>
+              )}
+              {loading ? (
+                <Skeleton width="40%" height={30} />
+              ) : (
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: { xs: 14, lg: 18 },
+                    textTransform: "capitalize",
+                  }}
+                  color={grey[600]}
+                >
+                  {user.department} Department
+                </Typography>
+              )}
             </Stack>
           </Box>
           <Container>
-          <Grid  container spacing={2} sx={{ mt: 4 }}>
-          <Grid item xs={12} sm={6}>
-            <ListItem>
-              <ListItemText primary="Email" secondary={profiledata.email} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Qualifications" secondary={profiledata.qualifications} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Contact" secondary={profiledata.contact} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Registration ID" secondary={profiledata.regId} />
-            </ListItem>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <ListItem>
-            <ListItemText primary="Acting Class Teacher For" secondary={profiledata.actingClassTeacherFor} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Expertise" secondary={profiledata.expertise} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Currently Teaching" secondary={`${profiledata.currentlyTeaching},${profiledata.additionalTeachingClasses}`} />
-            </ListItem>
-            <ListItem>
-              <ListItemText primary="Additional Teaching Departments" secondary={profiledata.additionalTeachingDepartments} />
-            </ListItem>
-          
-            <ListItem>
-              <ListItemText primary="Languages" secondary={profiledata.languages} />
-            </ListItem>
-          
-          </Grid>
-        </Grid>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={12} sm={4}>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Email" secondary={user.email} />}
+                </ListItem>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Qualifications" secondary={user.qualifications} />}
+                </ListItem>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Contact" secondary={user.contact} />}
+                </ListItem>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Registration ID" secondary={user.regId} />}
+                </ListItem>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Languages" secondary={user.languages && user.languages.join(', ')} />}
+                </ListItem>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Acting Class Teacher For" secondary={user.actingClassTeacherFor || 'None'} />}
+                </ListItem>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Currently Teaching" secondary={user.classesTeaching && user.classesTeaching.map(cls => cls.name).join(', ')} />}
+                </ListItem>
+                <ListItem>
+                  {loading ? <Skeleton width="80%" /> : <ListItemText primary="Additional Teaching Classes" secondary={user.additionalclassesTeaching && user.additionalclassesTeaching.map(cls => cls.name).join(', ')} />}
+                </ListItem>
+              </Grid>
+            </Grid>
           </Container>
         </Paper>
       </Box>

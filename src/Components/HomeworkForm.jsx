@@ -29,7 +29,6 @@ const HomeworkForm = () => {
     description: "",
     note: "",
     class: "",
-    subject: ""
   });
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
@@ -93,12 +92,11 @@ const handleSubmit = async (e) => {
 
     const payload = {
       description: homework.description,
-      section: homework.class.split("-")[1],
-      regId: currentUser.regId, // Replace with the actual teacher ID
+      teacher: currentUser._id, // Replace with the actual teacher ID
       note: homework.note,
-      classname: homework.class.split("-")[0],
-      subject: homework.subject,
-      attachment: imageUrl
+      classname: homework.class,
+      subject: currentUser.department,
+      attachment: imageUrl ? imageUrl : null
     };
     
     console.log(payload);
@@ -113,16 +111,16 @@ const handleSubmit = async (e) => {
 
     console.log(response.data);
 
-    // Reset the form
+
+    setFile(null);
+    setFilePreview(null);
+    setSnackbarOpen(true);
     setHomework({
       description: "",
       note: "",
       class: "",
       subject: ""
-    });
-    setFile(null);
-    setFilePreview(null);
-    setSnackbarOpen(true);
+    })
   } catch (error) {
     console.log(error);
     setLoading(false);
@@ -133,7 +131,7 @@ const handleSubmit = async (e) => {
   if (currentUser == null) {
     return <Login />
   }
-  const currentteachingclasses = currentUser.classesTeaching.concat(currentUser.additionalclassesTeaching);
+const currentteachingclasses = currentUser.classesTeaching.map(cls => ({ _id: cls._id, name: cls.name }));
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;

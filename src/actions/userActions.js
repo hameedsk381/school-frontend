@@ -21,13 +21,20 @@ export const loginUser = (user) => async (dispatch) => {
     
     window.location.href = "/";
   } catch (err) {
-    dispatch({ type: "USER_LOGIN_ERROR", payload: err });
+    if (err.response && err.response.status === 400) {
+      dispatch({ type: "USER_LOGIN_ERROR", payload: "Invalid credentials" });
+    } else if (err.response && err.response.status === 401) {
+      dispatch({ type: "USER_LOGIN_ERROR", payload: "Teacher not found" });
+    } else {
+      dispatch({ type: "USER_LOGIN_ERROR", payload: "something went wrong" });
+    }
+  
   }
 };
 export const getAllUsers = () => async (dispatch) => {
   dispatch({ type: "GET_ALL_USERS_REQUEST" });
   try {
-    const res = await axios.get(`${REACT_API_URL}/users/getallusers`);
+    const res = await axios.get(`${REACT_API_URL}/management`);
     dispatch({ type: "GET_ALL_USERS_SUCCESS", payload: res.data });
   } catch (err) {
     dispatch({
@@ -45,7 +52,7 @@ export const logoutUser = () => (dispatch) => {
 export const deleteUser = (userid) => async (dispatch) => {
   dispatch({ type: "USER_DELETE_REQUEST", payload: userid });
   try {
-    const res = await axios.delete(`${REACT_API_URL}/users/${userid}`);
+    const res = await axios.delete(`${REACT_API_URL}/management/${userid}`);
     dispatch({ type: "USER_DELETE_SUCCESS", payload: res.data.message });
   } catch (err) {
     dispatch({ type: "USER_DELETE_ERROR", payload: err.message });
@@ -54,7 +61,7 @@ export const deleteUser = (userid) => async (dispatch) => {
 export const updateUser = (regId,updatedData)=> async(dispatch) =>{
   dispatch({type:"UPDATE_USER_REQUEST"});
   try {
-    const res = await axios.patch(`${REACT_API_URL}/users/${regId}`,updatedData);
+    const res = await axios.put(`${REACT_API_URL}/management/${regId}`,updatedData);
     dispatch({ type: "UPDATE_USER_SUCCESS", payload: res.data });
   } catch (error) {
     dispatch({

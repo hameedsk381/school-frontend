@@ -12,7 +12,7 @@ const Facultypage = ({ dept }) => {
   const fetchUsers =  async() => {
     try {
       setLoading(true);
-      const res = await axios.get(`${REACT_API_URL}/users/${dept}`);
+      const res = await axios.get(`${REACT_API_URL}/management/${dept}`);
       
       // Filter users where isAdmin is false
       const filteredUsers = res.data.filter(user => !user.isAdmin);

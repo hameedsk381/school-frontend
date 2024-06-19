@@ -24,7 +24,7 @@ const AnnouncementPanel = () => {
        }, [dispatch])
        
   return (
-    <Card elevation={0} sx={{height:300}}>
+    <Card elevation={0} sx={{minHeight:'400px'}}>
       <CardHeader  sx={{backgroundColor:'#2196f3'}}
       title="Announcements" titleTypographyProps={{
         variant: "h5",
@@ -33,7 +33,7 @@ const AnnouncementPanel = () => {
 
       }}
        />
-      <CardContent sx={{ height: 280, overflow: 'auto' }}>
+      <CardContent sx={{ maxHeight: 300, overflow: 'auto' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {loading ? <CircularProgress sx={{mt:"30%"}}/> : <List disablePadding component={'ul'}>
     

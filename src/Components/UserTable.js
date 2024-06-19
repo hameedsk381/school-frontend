@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   DataGrid,
@@ -9,40 +9,16 @@ import {
   GridToolbarDensitySelector,
 } from "@mui/x-data-grid";
 import { deleteUser, getAllUsers, updateUser } from "../actions/userActions";
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-
-  TextField,
-} from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { Alert, Box, Button, CircularProgress } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-
-const EditCell = ({ value: initialValue, rowId, field, onSubmit }) => {
-  const [value, setValue] = useState(initialValue);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSubmit(rowId, field, value);
-  };
-  const handleInputChange = (event) => {
-    setValue(event.target.value);
-  };
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextField value={value} onChange={handleInputChange} autoFocus />
-    </form>
-  );
-};
 
 const UserTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllUsers());
-   
   }, [dispatch]);
 
   const allusers = useSelector((state) => state.getAllUsersReducer);
@@ -51,66 +27,69 @@ const UserTable = () => {
 
   const handleDeleteUser = (id) => {
     dispatch(deleteUser(id));
-   
+
     if (deletestatus.loading) {
       return <CircularProgress />;
     } else if (deletestatus.error) {
       return (
         <Alert variant="filled" severity="error">
-          Error while deleting the user"
+          Error while deleting the user
         </Alert>
       );
     } else if (deletestatus.message) {
       return <Alert severity="success">{deletestatus.message}</Alert>;
     }
-    setInterval(() => {
+    setTimeout(() => {
       window.location.reload();
     }, 3000);
   };
 
-  const handleUpdateUser = (id, field, value) => {
-    const user = users.find((user) => user.regId === id);
+  const handleUpdateUser = async (updatedRow) => {
+    const { id, field, value } = updatedRow;
+    const user = users.find((user) => user._id === id);
     const updatedUser = { ...user, [field]: value };
-    dispatch(updateUser(id, updatedUser));
+
+    try {
+       dispatch(updateUser(id, updatedUser));
+      return updatedUser;
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      throw error;
+    }
   };
 
   const columns = [
     { field: "name", headerName: "Name", width: 150, editable: true },
     { field: "email", headerName: "Email", width: 250, editable: true },
     { field: "regId", headerName: "Registration ID", width: 200 },
-    { field: "expertise", headerName: "Expertise", width: 400,editable:true },
-    { field: "CurrentlyTeaching", headerName: "Currently teaching", width: 350,editable:true },
-    {
-      field: "department",
-      headerName: "Department",
-      width: 150,
-      editable: true,
-    },
+    { field: "department", headerName: "Department", width: 150, editable: true },
+    { field: "qualifications", headerName: "Qualifications", width: 200, editable: true },
+    { field: "CurrentlyTeaching", headerName: "Currently Teaching", width: 350, valueGetter: (params) => params.row.classesTeaching.map(cls => cls.name).join(', ') },
+    { field: "AdditionalClassesTeaching", headerName: "Additional Classes Teaching", width: 350, valueGetter: (params) => params.row.additionalclassesTeaching.map(cls => cls.name).join(', ') },
     {
       field: "actions",
       headerName: "Actions",
       width: 200,
       renderCell: (params) => (
         <Box>
-       
-          <Button variant="outlined" size="small" startIcon={<Delete/>} onClick={() => {
-            handleDeleteUser(params.row.regId);
-            toast("User succesfully deleted");
+          <Button variant="outlined" size="small" startIcon={<Delete />} onClick={() => {
+            handleDeleteUser(params.row.id);
+            toast("User successfully deleted");
           }}>Delete</Button>
-         
         </Box>
       ),
     },
   ];
 
-  const rows = users &&  users.map((user) => ({
-    id: user._id,
+  const rows = users && users.map((user) => ({
+    id: user._id, // Ensure you have a unique identifier here
     name: user.name,
     email: user.email,
     regId: user.regId,
     department: user.department,
-    expertise:user.expertise,
-    CurrentlyTeaching:user.currentlyTeaching
+    qualifications: user.qualifications,
+    classesTeaching: user.classesTeaching,
+    additionalclassesTeaching: user.additionalclassesTeaching,
   })) || [];
 
   if (loading) {
@@ -127,17 +106,19 @@ const UserTable = () => {
 
   return (
     <div style={{ height: 500, width: "100%" }}>
-    {deletestatus.message && <ToastContainer/>}
-      <DataGrid density="comfortable"
-        getRowId={(row) => row.regId}
+      {deletestatus.message && <ToastContainer />}
+      <DataGrid
+        density="comfortable"
+        getRowId={(row) => row.id}
         rows={rows}
         columns={columns}
         pageSize={5}
         checkboxSelection
         disableSelectionOnClick
-        editMode="cell"
-        onEditCellChangeCommitted={(params, event) => {
-          handleUpdateUser(params.row.regId, params.field, params.props.value);
+        processRowUpdate={handleUpdateUser}
+        onProcessRowUpdateError={(error) => {
+          console.error("Update error:", error);
+          toast.error("Failed to update user");
         }}
         components={{
           Toolbar: () => (
@@ -153,7 +134,6 @@ const UserTable = () => {
               </Link>
             </GridToolbarContainer>
           ),
-          EditCell,
         }}
       />
     </div>
@@ -161,3 +141,5 @@ const UserTable = () => {
 };
 
 export default UserTable;
+
+

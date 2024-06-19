@@ -31,7 +31,8 @@ export default function Login() {
   React.useEffect(() => {
     if (localStorage.getItem("currentUser")) {
       window.location.href = "/";
-    }
+    } 
+    console.log(error)
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,18 +41,19 @@ export default function Login() {
       email,
     };
     dispatch(loginUser(user));
+    
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm" >
         <CssBaseline />
         
-        {error && <Alert severity="error">{error.message} </Alert>}
+        {error && <Alert sx={{marginTop:2}} severity="error">{error} </Alert>}
 
         <Box
           sx={{
-            marginBlock: 8,
+            marginBlock: 6,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
