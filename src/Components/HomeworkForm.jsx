@@ -222,14 +222,15 @@ const handleSubmit = async (e) => {
         </form>
       </CardContent>
       <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-      >
-        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
-          Homework uploaded successfully!
-        </Alert>
-      </Snackbar>
+      open={snackbarOpen}
+      autoHideDuration={6000}
+      onClose={handleSnackbarClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Anchor to top-right corner
+    >
+      <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+        Homework uploaded successfully!
+      </Alert>
+    </Snackbar>
     </Card>
   );
 };
