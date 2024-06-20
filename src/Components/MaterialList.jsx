@@ -18,12 +18,13 @@ import {
   Select,
   MenuItem,
   Box,
+  LinearProgress,
 } from '@mui/material';
-import { GetApp as DownloadIcon } from '@mui/icons-material';
 import { logos } from '../assets';
 import MaterialCard from './MaterialCard';
 import axios from 'axios';
 import REACT_API_URL from '../config';
+import Loader from './Loader';
 
 const MaterialList = () => {
   const [materials, setMaterials] = useState([]);
@@ -151,7 +152,7 @@ const MaterialList = () => {
             </Grid>
             <Divider sx={{ my: 2 }} />
             {loading ? (
-              <CircularProgress />
+      <Loader/>
             ) : filteredMaterials.length === 0 ? (
               <Typography variant="body1" color="textSecondary" sx={{ textAlign: 'center' }}>
                 No materials found.

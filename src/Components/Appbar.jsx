@@ -427,7 +427,7 @@ function Appbar() {
         marginInline: "5px",
         textDecoration: "underline",
       }}
-      to={'/admissionform'}
+      to={'/admissions'}
     >
       click here
     </Link>

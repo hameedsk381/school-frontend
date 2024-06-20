@@ -130,8 +130,11 @@ const Home = () => {
             ))}
           </Carousel>
         </Grid>
-        <Grid item xs={12} md={3} component={Card} elevation={0} p={3}>
-          <AnnouncementPanel />
+        <Grid item xs={12} md={3} component={Card} elevation={0} pt={3} pl={3} >
+          <Box maxHeight={420} overflow={'auto'}>
+          <AnnouncementPanel card={false} />
+         
+          </Box>
           <Button
             component={Link}
             variant="contained"

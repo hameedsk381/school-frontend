@@ -10,6 +10,7 @@ import {
   Divider,
 
   CircularProgress,
+  Paper,
   
 } from '@mui/material';
 
@@ -27,12 +28,12 @@ const Root = styled(Card)({
 });
 
 const Title = styled(Typography)({
-  margin:"auto",fontFamily:"cinzel"
+  margin:"auto",fontFamily:"cinzel",fontWeight:'bold'
 });
 
 const Content = styled(Typography)({
   whiteSpace: 'pre-wrap',
-  marginBottom: 2
+  marginBottom: 2,fontFamily:'sans-serif'
 });
 
 
@@ -59,10 +60,10 @@ function Announcement() {
   }
 
   return (
-  <Box sx={{py:4,width:"100vw",height:"100vh",bgcolor:"#2196f3"}} >
+  <Box sx={{mt:{xs:0,md:3}}} >
     
-  <Root  elevation={4} > 
-  <Button variant='contained' size='small' sx={{m:3}} startIcon={<ArrowBack/>} component={Link} to="/announcements">Back to Announcements</Button>
+  <Root  elevation={4} sx={{bgcolor:'#2196f3'}} > 
+  <Button color='inherit' variant='contained' size='small' sx={{m:3}} startIcon={<ArrowBack/>} component={Link} to="/announcements">Back to Announcements</Button>
   <Box
   component="img"
   src={logos.logo2}
@@ -77,10 +78,13 @@ function Announcement() {
     <CardContent>
       <Box display="flex" alignItems="center">
         
-        <Title variant="h5">{announcement.title}</Title>
+        <Title variant="h5" color={'#ffffff'}>{announcement.title}</Title>
       </Box>
-      <Divider sx={{my:3}}/>
+     
+      <Paper elevation={4} sx={{p:2,mt:4}} variant='outlined'>
       <Content variant="body1">{announcement.description}</Content>
+      </Paper>
+      
     </CardContent>
     
   </Root>

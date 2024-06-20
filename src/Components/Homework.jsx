@@ -22,6 +22,7 @@ import moment from 'moment';
 import REACT_API_URL from '../config';
 import HomeworkTable from './HomeworkTable';
 import { ArrowForward } from '@mui/icons-material';
+import Loader from './Loader';
 
 const Homework = () => {
   const [homeworkData, setHomeworkData] = useState([]);
@@ -85,7 +86,7 @@ const Homework = () => {
 
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-            <CircularProgress />
+          <Loader/>
           </Box>
         ) : error ? (
           <Alert severity="error" sx={{ mt: 2 }}>
