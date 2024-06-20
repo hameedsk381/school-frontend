@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Breadcrumbs, CircularProgress, Divider, Grid, List, ListItem, ListItemButton, ListItemText, Paper, Stack, Typography, Alert, Container } from '@mui/material';
-import { Link } from 'react-router-dom';
+import {
+  Box,
+  Breadcrumbs,
+  CircularProgress,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Stack,
+  Typography,
+  Alert,
+  Container,
+  Button,
+} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment'; 
 import REACT_API_URL from '../config';
 import HomeworkTable from './HomeworkTable';
+import { ArrowForward } from '@mui/icons-material';
 
 const Homework = () => {
   const [homeworkData, setHomeworkData] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Fetch homework data from API
   const fetchHomeworkData = async () => {
@@ -43,56 +61,60 @@ const Homework = () => {
     setSelectedClass(classname);
   };
 
-  // Function to reload homework data
-  const reloadHomeworkData = () => {
-    fetchHomeworkData();
+  const handleClick = () => {
+    navigate('/materials');
   };
 
   return (
-    <Container>
-      <Box>
-        <Stack px={3} pt={3} sx={{ display: { xs: "block", md: "flex" } }}>
-          <Box component="div" role="presentation">
-            <Typography variant="h6">Homework</Typography>
+    <Container maxWidth="lg">
+      <Box my={4}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2}>
+          <Box>
+            <Typography variant="h4">Homework</Typography>
             <Breadcrumbs aria-label="breadcrumb">
               <Link underline="hover" color="inherit" to="/">
                 Home
               </Link>
-              <Typography sx={{ color: "#2196f3" }}>Homework</Typography>
+              <Typography color="text.primary">Homework</Typography>
             </Breadcrumbs>
           </Box>
+          <Button variant="contained" endIcon={<ArrowForward />} size="small" onClick={handleClick}>
+            Resources Section
+          </Button>
         </Stack>
 
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
             <CircularProgress />
           </Box>
         ) : error ? (
-          <Box sx={{ my: 2 }}>
-            <Alert severity="error">{error}</Alert>
-          </Box>
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {error}
+          </Alert>
         ) : homeworkData.length === 0 ? (
-          <Box sx={{ my: 2 }}>
-            <Alert severity="info">No homework for today</Alert>
-          </Box>
+          <Alert severity="info" sx={{ mt: 2 }}>
+            No homework for today
+          </Alert>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} mt={2}>
             <Grid item xs={12} md={3}>
-              <Paper variant="outlined" sx={{ border: '1px solid #2196f3', m: 3, pt: 2, bgcolor: '#2196f3', color: 'HighlightText' }}>
-                <Typography variant="h6" sx={{ mx: 3, color: 'white', marginBottom: 2 }}>Classes and Sections</Typography>
-                <List sx={{ bgcolor: 'white' }}>
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="h6" color="primary" mb={2}>
+                  Classes and Sections
+                </Typography>
+                <List>
                   {homeworkData.map(item => (
                     <ListItem
                       key={item._id}
                       disablePadding
                       sx={{
-                        '&:hover': { bgcolor: '#f5f5f5', cursor: 'pointer' },
-                        bgcolor: selectedClass === item.classname ? '#f5f5f5' : 'white',
+                        '&:hover': { bgcolor: 'action.hover', cursor: 'pointer' },
+                        bgcolor: selectedClass === item.classname ? 'action.selected' : 'inherit',
                       }}
                       onClick={() => handleClassSectionSelection(item.classname)}
                     >
                       <ListItemButton>
-                        <ListItemText primary={item.classname.name} sx={{ color: "#2196f3" }} />
+                        <ListItemText primary={item.classname.name} />
                       </ListItemButton>
                     </ListItem>
                   ))}
@@ -101,8 +123,10 @@ const Homework = () => {
             </Grid>
 
             <Grid item xs={12} md={9}>
-              <Paper variant="outlined" sx={{ m: 3, p: 2 }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>Selected Class and Section: {selectedClass ? selectedClass.name : 'None'}</Typography>
+              <Paper variant="outlined" sx={{ p: 2 }}>
+                <Typography variant="h6" mb={2}>
+                  Selected Class and Section: {selectedClass ? selectedClass.name : 'None'}
+                </Typography>
                 <Divider sx={{ mb: 2 }} />
                 <HomeworkTable classname={selectedClass ? selectedClass._id : null} />
               </Paper>
