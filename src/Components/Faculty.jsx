@@ -52,7 +52,7 @@ const Faculty = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = classeslist;
+        const response = await axios.get(`${REACT_API_URL}/management/departments/list`);
         setDepartments(response.data);
         setLoading(false);
       } catch (error) {
