@@ -211,7 +211,7 @@ const MaterialUploadForm = ({ open, handleClose }) => {
           variant="contained"
           color="primary"
           onClick={handleSubmit}
-          disabled={loading || files.length === 0 || !title.trim() || !subject || !selectedClass}
+          disabled={loading || files.length === 0 || !title.trim() || !selectedClass}
         >
           {loading ? <CircularProgress size={24} /> : 'Upload'}
         </Button>
