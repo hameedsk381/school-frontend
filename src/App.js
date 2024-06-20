@@ -45,6 +45,7 @@ import AdmForm from "./Components/AdmForm";
 import ExamForm from "./Components/ExamForm";
 import SearchResults from "./Components/SearchResults";
 import HomeworkDashboard from "./Components/HomeworkDashboard";
+import MaterialList from "./Components/MaterialList";
 
 const queryClient = new QueryClient();
 
@@ -101,6 +102,7 @@ function App() {
         <Route path="/admissionform" element={<AdmForm />} exact />
         <Route path="/examform" element={<ExamForm />} exact />
         <Route path="/result" element={<SearchResults />} exact />
+        <Route path="/materials" element={<MaterialList />} exact />
       </Routes>
         </Box>
       </QueryClientProvider>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import REACT_API_URL from '../config'; // Assuming you have your API URL configured here
 import Facultypage from './Facultypage';
+import { classeslist } from '../utils/classes';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,7 +52,7 @@ const Faculty = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get(`${REACT_API_URL}/management/departments/list`);
+        const response = classeslist;
         setDepartments(response.data);
         setLoading(false);
       } catch (error) {

@@ -1,3 +1,5 @@
+// components/User.js
+import React, { useState } from 'react';
 import {
   Alert,
   Box,
@@ -8,20 +10,21 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { useSelector } from "react-redux";
-import Avatar from "@mui/material/Avatar";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import { grey } from "@mui/material/colors";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import { useEffect } from "react";
+} from '@mui/material';
+import { useSelector } from 'react-redux';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { grey } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import MaterialUploadForm from './MaterialUploadForm';
 
 const User = () => {
   const loginState = useSelector((state) => state.loginUserReducer);
   const { loading, error, currentUser } = loginState;
+  const [openModal, setOpenModal] = useState(false);
 
   const user = {
     name: currentUser.name,
@@ -33,15 +36,23 @@ const User = () => {
     qualifications: currentUser.qualifications,
     contact: currentUser.contact,
     languages: currentUser.languages.join(', '),
-    classesTeaching: currentUser.classesTeaching.map(cls => cls.name).join(', '),
-    additionalClassesTeaching: currentUser.additionalclassesTeaching.map(cls => cls.name).join(', ')
+    classesTeaching: currentUser.classesTeaching.map((cls) => cls.name).join(', '),
+    additionalClassesTeaching: currentUser.additionalclassesTeaching
+      .map((cls) => cls.name)
+      .join(', '),
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
     <>
-      <Box
-        sx={{ mx: { xs: 0, lg: 25 },mt:6, p: 3, height: "100%", color: "#2196f3" }}
-      >
+      <Box sx={{ mx: { xs: 0, lg: 25 }, mt: 6, p: 3, height: '100%', color: '#2196f3' }}>
         {loading && <CircularProgress />}
         {error && (
           <Alert variant="outlined" severity="error">
@@ -59,45 +70,50 @@ const User = () => {
                   imageUrl: user.profilePicture,
                   imageWidth: 400,
                   imageHeight: 200,
-                  imageAlt: "Custom image",
+                  imageAlt: 'Custom image',
                 });
               }}
               sx={{
                 my: { xs: -6, lg: -10 },
-                margin: "auto",
+                margin: 'auto',
                 width: { lg: 120, xs: 100 },
                 height: { lg: 120, xs: 100 },
-                border: "5px solid white",
+                border: '5px solid white',
               }}
             />
             <Stack
               sx={{
                 mt: { xs: 7, lg: 11 },
-                justifyContent: "center",
-                alignContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignContent: 'center',
+                alignItems: 'center',
               }}
             >
               <Typography
                 sx={{
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                   fontSize: { xs: 17, lg: 25 },
-                  textTransform: "capitalize",
+                  textTransform: 'capitalize',
                 }}
               >
                 {user.name}
               </Typography>
               <Typography
-                sx={{ fontWeight: "bold", fontSize: { xs: 14, lg: 18 } }}
+                sx={{ fontWeight: 'bold', fontSize: { xs: 14, lg: 18 } }}
                 color={grey[600]}
               >
                 {user.department} Department
               </Typography>
             </Stack>
-            <Container>
-              <Button sx={{mt:2}} component={Link} variant="contained" to="/homeworkform">
-                Add Homework
-              </Button>
+            <Container sx={{ pt: 3 }}>
+              <Stack direction="row" spacing={2}>
+                <Button component={Link} variant="contained" to="/homeworkform">
+                  Add Homework
+                </Button>
+                <Button variant="contained" onClick={handleOpenModal}>
+                  Add Material
+                </Button>
+              </Stack>
 
               <Grid container spacing={2} sx={{ mt: 4 }}>
                 <Grid item xs={12} sm={6}>
@@ -121,7 +137,6 @@ const User = () => {
                   </ListItem>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-             
                   <ListItem>
                     <ListItemText
                       primary="Currently Teaching"
@@ -135,10 +150,7 @@ const User = () => {
                     />
                   </ListItem>
                   <ListItem>
-                    <ListItemText
-                      primary="Languages"
-                      secondary={user.languages}
-                    />
+                    <ListItemText primary="Languages" secondary={user.languages} />
                   </ListItem>
                 </Grid>
               </Grid>
@@ -146,6 +158,9 @@ const User = () => {
           </Box>
         </Paper>
       </Box>
+
+      {/* Material Upload Modal */}
+      <MaterialUploadForm open={openModal} handleClose={handleCloseModal} />
     </>
   );
 };
