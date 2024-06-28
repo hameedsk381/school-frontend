@@ -118,8 +118,7 @@ const handleSubmit = async (e) => {
     setHomework({
       description: "",
       note: "",
-      class: "",
-      subject: ""
+      class: ""
     })
   } catch (error) {
     console.log(error);

@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { carouselimages } from "../assets";
 
-
-
 function srcset(image, size, rows = 1, cols = 1) {
   return {
     src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
@@ -17,25 +15,17 @@ function srcset(image, size, rows = 1, cols = 1) {
   };
 }
 
-export default function Imagelist() {
-  // const [img, setImg] = React.useState(null);
-  // const [open, setOpen] = React.useState(false);
-  // const [pics, setpics] = React.useState([]);
-  // const handleClose = () => setOpen(false);
-  // React.useEffect(() => {
-  //   axios.get(`${REACT_API_URL}/`).then((res) => {
-  //     setpics(res.data);
-  //   });
-  // }, []);
+export default function SchoolGallery() {
   return (
     <Container>
       <Box sx={{ my: 2 }} component="div" role="presentation">
-        <Typography variant="h6">Gallery</Typography>
+        <Typography variant="h6" component="div">
+          Gallery
+        </Typography>
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" color="inherit" to="/">
             Home
           </Link>
-
           <Typography sx={{ color: "#757ce8" }}>Gallery</Typography>
         </Breadcrumbs>
       </Box>
@@ -53,16 +43,16 @@ export default function Imagelist() {
       </Typography>
 
       <ImageList
-        sx={{ width: "100%", height: "100%" }}
+        sx={{ width: "100%", height: "auto" }}
         variant="quilted"
-        cols={3}
+        cols={{ xs: 1, sm: 2, md: 3 }}
         rowHeight={221}
       >
         {carouselimages.map((item, i) => (
           <ImageListItem key={i} cols={item.cols || 1} rows={item.rows || 1}>
             <img
-            loading="lazy"
-              {...srcset(item.response)}
+              loading="lazy"
+              {...srcset(item.response, 221, item.rows, item.cols)}
               alt={item.title}
               onClick={() => {
                 Swal.fire({
@@ -72,11 +62,7 @@ export default function Imagelist() {
                   imageAlt: "Custom image",
                 });
               }}
-              // onClick={() => {
-              //   setOpen(true);
-              //   setImg(item);
-              // }}
-              style={{ filter: "drop-shadow(8px 8px 10px gray)" }}
+              style={{ cursor: "pointer", filter: "drop-shadow(8px 8px 10px gray)" }}
             />
           </ImageListItem>
         ))}
