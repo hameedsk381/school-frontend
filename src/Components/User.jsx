@@ -113,6 +113,9 @@ const User = () => {
                 <Button variant="contained" onClick={handleOpenModal}>
                   Add Material
                 </Button>
+               { currentUser.classTeacherName!== null && <Button component={Link} variant="contained" to="/examreports">
+                  Exam portal 
+                </Button>}
               </Stack>
 
               <Grid container spacing={2} sx={{ mt: 4 }}>

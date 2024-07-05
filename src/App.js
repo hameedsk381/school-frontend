@@ -31,21 +31,19 @@ import AlumniFeedbackForm from "./Components/AlumniFeedbackForm";
 
 import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react"; // Import useEffect
-import Announcements from "./Components/Announcements";
 import Announcementpage from "./Components/Announcementpage";
 import Announcement from "./Components/Announcement";
 import ForgotPassword from "./Components/ForgotPassword";
 import ResetPassword from "./Components/ResetPassword";
 import SingleEvent from "./Components/SingleEvent";
-import HomeworkForm from "./Components/HomeworkForm";
 import AnnouncementPanel from "./Components/AnnouncementPanel";
 import EventsPanel from "./Components/EventsPanel";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdmForm from "./Components/AdmForm";
-import ExamForm from "./Components/ExamForm";
 import SearchResults from "./Components/SearchResults";
 import HomeworkDashboard from "./Components/HomeworkDashboard";
 import MaterialList from "./Components/MaterialList";
+import ExamReportsDataGrid from "./Components/ExamReportsDataGrid";
 
 const queryClient = new QueryClient();
 
@@ -100,7 +98,7 @@ function App() {
         <Route path="/announcements" element={<AnnouncementPanel />} exact />
         <Route path="/events" element={<EventsPanel />} exact />
         <Route path="/admissionform" element={<AdmForm />} exact />
-        <Route path="/examform" element={<ExamForm />} exact />
+        <Route path="/examreports" element={<ExamReportsDataGrid />} exact />
         <Route path="/result" element={<SearchResults />} exact />
         <Route path="/materials" element={<MaterialList />} exact />
       </Routes>
